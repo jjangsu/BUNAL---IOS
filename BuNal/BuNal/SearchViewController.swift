@@ -27,7 +27,7 @@ class SearchViewController: UIViewController, XMLParserDelegate {
     @IBAction func micButtonAction(_ sender: Any) {
     }
     @IBAction func searchButtonAction(_ sender: Any) {
-        beginParsing()
+        // beginParsing()
     }
     @IBAction func chooseCategoryAction(_ sender: Any) {
     }
@@ -36,15 +36,33 @@ class SearchViewController: UIViewController, XMLParserDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        beginXmlFileParsing()
+        // beginParsing()
         // Do any additional setup after loading the view.
+    }
+    
+    func beginXmlFileParsing()
+    {
+        posts = []
+        parser = XMLParser(contentsOf:(URL(string:"https://openapi.gg.go.kr/BusStation?ServiceKey=b84002c9970245a8b2e12f849ed7f049"))!)!
+        
+        parser.delegate = self
+        
+        let success:Bool = parser.parse()
+        if success {
+            print("success")
+
+        } else {
+            print("parse failure!")
+        }
+        
+        listTableView!.reloadData()
     }
     
     func beginParsing()
     {
         posts = []
         parser = XMLParser(contentsOf:(URL(string:"http://apis.data.go.kr/9710000/NationalAssemblyInfoService/getMemberCurrStateList?ServiceKey=sea100UMmw23Xycs33F1EQnumONR%2F9ElxBLzkilU9Yr1oT4TrCot8Y2p0jyuJP72x9rG9D8CN5yuEs6AS2sAiw%3D%3D"))!)!
-
 
         parser.delegate = self
         parser.parse()
@@ -53,7 +71,10 @@ class SearchViewController: UIViewController, XMLParserDelegate {
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String: String]) {
         element = elementName as NSString
-        if ( elementName as NSString ).isEqual(to: "item")
+        
+        // print("CurrentElementl: [\(elementName)]")
+        
+        if ( elementName as NSString ).isEqual(to: "row")
         {
             elements = NSMutableDictionary()
             elements = [:]
@@ -64,17 +85,17 @@ class SearchViewController: UIViewController, XMLParserDelegate {
     
     func parser(_ parser: XMLParser, foundCharacters string: String)
     {
-        
-        if element.isEqual(to: "empNm"){
+        if element.isEqual(to: "STATION_NM_INFO"){
             name.append(string)
         }
+        
     }
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI namspaceURI: String?, qualifiedName qName: String?)
     {
-        if(elementName as NSString).isEqual(to: "item") {
+        if(elementName as NSString).isEqual(to: "row") {
             if !name.isEqual( nil) {
-                elements.setObject(name, forKey: "name" as NSCopying)
+                elements.setObject(name, forKey: "STATION_NM_INFO" as NSCopying)
             }
             
             posts.add(elements)
