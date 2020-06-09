@@ -14,6 +14,7 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var inputLabel: UILabel!
     @IBOutlet weak var listTableView: UITableView!
+    @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var chooseCategoryControl: UISegmentedControl!
     
     
@@ -27,6 +28,7 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
     @IBAction func micButtonAction(_ sender: Any) {
     }
     @IBAction func searchButtonAction(_ sender: Any) {
+        beginXmlFileParsing(name: String(searchTextField.text!))
         // beginParsing()
     }
     @IBAction func chooseCategoryAction(_ sender: Any) {
@@ -37,8 +39,6 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         beginXmlFileParsing(name: "강남")
-        // beginParsing()
-        // Do any additional setup after loading the view.
     }
     
     func beginXmlFileParsing(name: String)
