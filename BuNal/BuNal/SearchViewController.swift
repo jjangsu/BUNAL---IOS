@@ -26,6 +26,8 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
     var stationName = NSMutableString()
     var SiName = NSMutableString()
     var stationId = NSMutableString()
+    var locationX = NSMutableString()
+    var locationY = NSMutableString()
     
     
     @IBAction func micButtonAction(_ sender: Any) {
@@ -94,6 +96,10 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
             SiName = ""
             stationId = NSMutableString()
             stationId = ""
+            locationX = NSMutableString()
+            locationX = ""
+            locationY = NSMutableString()
+            locationY = ""
         }
     }
     
@@ -108,6 +114,12 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
         else if element.isEqual(to: "stationId") {
             stationId.append(string)
         }
+        else if element.isEqual(to: "x") {
+            locationX.append(string)
+        }
+        else if element.isEqual(to: "y") {
+            locationY.append(string)
+        }
     }
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI namspaceURI: String?, qualifiedName qName: String?)
@@ -121,6 +133,12 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
             }
             if !stationId.isEqual( nil) {
                 elements.setObject(stationId, forKey: "stationId" as NSCopying)
+            }
+            if !locationX.isEqual(nil) {
+                elements.setObject(locationX, forKey: "x" as NSCopying)
+            }
+            if !locationY.isEqual(nil) {
+                elements.setObject(locationY, forKey: "y" as NSCopying)
             }
             
             posts.add(elements)
@@ -151,6 +169,8 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
         
        // secondViewController.stationID = ""
         secondViewController.stationID = (posts.object(at: indexPath!.row) as AnyObject).value(forKey: "stationId") as! NSString as! NSMutableString
+        secondViewController.locationX = (posts.object(at: indexPath!.row) as AnyObject).value(forKey: "x") as! NSString as! NSMutableString
+        secondViewController.locationY = (posts.object(at: indexPath!.row) as AnyObject).value(forKey: "y") as! NSString as! NSMutableString
     }
 
 }

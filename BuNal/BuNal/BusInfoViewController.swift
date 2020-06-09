@@ -19,7 +19,8 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
     var routeTypeName = NSMutableString()
     
     var stationID = NSMutableString()
-
+    var locationX = NSMutableString()
+    var locationY = NSMutableString()
     
     @IBOutlet weak var busListTableview: UITableView!
     
@@ -87,7 +88,6 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
         if(elementName as NSString).isEqual(to: "busRouteList") {
             if !routeName.isEqual(nil) {
                 elements.setObject(routeName, forKey: "routeName" as NSCopying)
-                print(routeName)
             }
             if !routeTypeName.isEqual(nil) {
                 elements.setObject(routeTypeName, forKey: "routeTypeName" as NSCopying)
@@ -110,6 +110,13 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
     {
         // print(posts.count)
         return posts.count
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let secondViewController = segue.destination as? MapViewController else { return }
+        
+        secondViewController.locationX = self.locationX
+        secondViewController.locationY = self.locationY
     }
 
     /*

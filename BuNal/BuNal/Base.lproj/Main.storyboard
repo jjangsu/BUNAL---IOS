@@ -51,23 +51,49 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7X1-Td-JCh">
-                                <rect key="frame" x="323" y="75" width="36" height="39"/>
+                                <rect key="frame" x="323" y="103" width="36" height="39"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="0.50646026649999998" green="0.84692762310000003" blue="0.28334699600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" image="magnifyingglass" catalog="system"/>
                                 <connections>
                                     <action selector="searchButtonAction:" destination="7A3-Np-o62" eventType="touchUpInside" id="gty-gR-nSH"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z4i-Wy-qcN">
-                                <rect key="frame" x="16" y="75" width="39" height="39"/>
+                                <rect key="frame" x="16" y="103" width="39" height="39"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="0.50646026649999998" green="0.84692762310000003" blue="0.28334699600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" image="mic.fill" catalog="system"/>
                                 <connections>
                                     <action selector="micButtonAction:" destination="7A3-Np-o62" eventType="touchUpInside" id="mH6-6I-H9w"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Hhu-66-xEK">
+                                <rect key="frame" x="16" y="583" width="343" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="정류장"/>
+                                    <segment title="버스 번호"/>
+                                </segments>
+                                <connections>
+                                    <action selector="chooseCategoryAction:" destination="7A3-Np-o62" eventType="valueChanged" id="sXj-P4-m7j"/>
+                                </connections>
+                            </segmentedControl>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0fW-a3-bXj">
+                                <rect key="frame" x="56" y="105" width="259" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="검색하슈" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Fe-Q1-11O">
+                                <rect key="frame" x="56" y="80" width="119" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" sectionIndexMinimumDisplayRowCount="1" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Zkh-Cy-cJQ">
-                                <rect key="frame" x="16" y="122" width="343" height="431"/>
+                                <rect key="frame" x="16" y="152" width="343" height="431"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <color key="sectionIndexBackgroundColor" red="0.50646026649999998" green="0.84692762310000003" blue="0.28334699600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -101,7 +127,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="RQy-ks-evP" kind="show" identifier="showBusInfo" id="qaj-YD-QhN"/>
+                                            <segue destination="RQy-ks-evP" kind="show" id="1XO-2G-mch"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -110,30 +136,6 @@
                                     <outlet property="delegate" destination="7A3-Np-o62" id="YvD-7X-44j"/>
                                 </connections>
                             </tableView>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0fW-a3-bXj">
-                                <rect key="frame" x="56" y="77" width="259" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="검색하슈" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Fe-Q1-11O">
-                                <rect key="frame" x="56" y="52" width="119" height="24"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Hhu-66-xEK">
-                                <rect key="frame" x="16" y="583" width="343" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <segments>
-                                    <segment title="정류장"/>
-                                    <segment title="버스 번호"/>
-                                </segments>
-                                <connections>
-                                    <action selector="chooseCategoryAction:" destination="7A3-Np-o62" eventType="valueChanged" id="sXj-P4-m7j"/>
-                                </connections>
-                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="Ilz-8M-bg9"/>
@@ -204,7 +206,7 @@
                                         </tableViewCellContentView>
                                         <color key="tintColor" red="0.84692762310000003" green="0.74009346214685889" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
-                                            <segue destination="VSV-Vh-6Zf" kind="show" id="lXq-ve-Akb"/>
+                                            <segue destination="VSV-Vh-6Zf" kind="show" id="Fj0-Dn-uYz"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -245,7 +247,7 @@
         <!--Map-->
         <scene sceneID="aEe-KS-Apo">
             <objects>
-                <viewController title="Map" id="VSV-Vh-6Zf" sceneMemberID="viewController">
+                <viewController title="Map" id="VSV-Vh-6Zf" customClass="MapViewController" customModule="BuNal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9zI-8e-jq4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -259,15 +261,23 @@
                         <viewLayoutGuide key="safeArea" id="Lx8-2x-FRL"/>
                     </view>
                     <navigationItem key="navigationItem" id="qS8-0o-I8P">
-                        <barButtonItem key="leftBarButtonItem" image="arrow.counterclockwise" catalog="system" style="plain" id="6a1-25-wmg"/>
+                        <barButtonItem key="leftBarButtonItem" image="arrow.counterclockwise" catalog="system" style="plain" id="6a1-25-wmg">
+                            <connections>
+                                <segue destination="yOO-vJ-ifp" kind="unwind" unwindAction="backwardViewControllerWithSegue:" id="IoQ-TP-JNy"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="location" catalog="system" style="plain" id="x3x-lw-Qx3">
                             <connections>
                                 <segue destination="5If-qg-VKS" kind="show" id="uW2-y1-tLs"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="mapView" destination="GHk-At-kA8" id="H5i-WZ-wFU"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L1G-RN-kQl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="yOO-vJ-ifp" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="6653.6000000000004" y="-334.18290854572717"/>
         </scene>
@@ -371,6 +381,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KPb-3Q-kbs" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="Bso-XB-1lA"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="KLB-rs-7zo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -404,8 +415,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="lXq-ve-Akb"/>
-        <segue reference="qaj-YD-QhN"/>
+        <segue reference="Fj0-Dn-uYz"/>
+        <segue reference="WIT-Xx-1GP"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.counterclockwise" catalog="system" width="115" height="128"/>

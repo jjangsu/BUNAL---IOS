@@ -16,6 +16,7 @@
 		A14016202487FA2900E50496 /* Resource in Resources */ = {isa = PBXBuildFile; fileRef = A140161F2487FA2900E50496 /* Resource */; };
 		A140162224880F4C00E50496 /* BusInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A140162124880F4C00E50496 /* BusInfoViewController.swift */; };
 		A140162424880F6500E50496 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A140162324880F6500E50496 /* SearchViewController.swift */; };
+		A178B8392490276D0069C10E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A178B8382490276D0069C10E /* MapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		A140161F2487FA2900E50496 /* Resource */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resource; sourceTree = "<group>"; };
 		A140162124880F4C00E50496 /* BusInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusInfoViewController.swift; sourceTree = "<group>"; };
 		A140162324880F6500E50496 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		A178B8382490276D0069C10E /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,8 +72,9 @@
 				A14016142487E79700E50496 /* Assets.xcassets */,
 				A14016162487E79700E50496 /* LaunchScreen.storyboard */,
 				A14016192487E79700E50496 /* Info.plist */,
-				A140162124880F4C00E50496 /* BusInfoViewController.swift */,
 				A140162324880F6500E50496 /* SearchViewController.swift */,
+				A140162124880F4C00E50496 /* BusInfoViewController.swift */,
+				A178B8382490276D0069C10E /* MapViewController.swift */,
 			);
 			path = BuNal;
 			sourceTree = "<group>";
@@ -149,6 +152,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A140162424880F6500E50496 /* SearchViewController.swift in Sources */,
+				A178B8392490276D0069C10E /* MapViewController.swift in Sources */,
 				A14016102487E79600E50496 /* ViewController.swift in Sources */,
 				A140160C2487E79600E50496 /* AppDelegate.swift in Sources */,
 				A140160E2487E79600E50496 /* SceneDelegate.swift in Sources */,
