@@ -36,21 +36,20 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        beginXmlFileParsing()
+        beginXmlFileParsing(name: "강남")
         // beginParsing()
         // Do any additional setup after loading the view.
     }
     
-    func beginXmlFileParsing()
+    func beginXmlFileParsing(name: String)
     {
         // 경기도꺼
         // let path = "https://openapi.gg.go.kr/BusStation?ServiceKey=b84002c9970245a8b2e12f849ed7f049&SIGUN_NM="
         let path = "http://openapi.gbis.go.kr/ws/rest/busstationservice?serviceKey=cOXFXk2qE%2FhuIiYcsMQ4gv032heBUTwuP%2FDQwW0TskxrWGtrdVC6bJPNmJ2CbVcFq6P1eirV9X5d5fql75eeRg%3D%3D&keyword="
-        let name = "강남"
+        // let name = "강남"
         
         // let fullPath = path + name
         let quaryPath = name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!    // urlQueryAllowed
-        print(quaryPath)
         
         posts = []
         parser = XMLParser(contentsOf:(URL(string: path + quaryPath  ))!)!
@@ -93,7 +92,6 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
         else if element.isEqual(to: "regionName") {
             SiName.append(string)
         }
-        print(string)
     }
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI namspaceURI: String?, qualifiedName qName: String?)
