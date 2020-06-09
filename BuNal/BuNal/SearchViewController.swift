@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchViewController: UIViewController, XMLParserDelegate, UITableViewDataSource {
+class SearchViewController: UIViewController, XMLParserDelegate, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var micButton: UIButton!
     @IBOutlet weak var searchButton: UIButton!
@@ -22,37 +22,48 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
     var posts = NSMutableArray()
     var elements = NSMutableDictionary()
     var element = NSString()
+    
     var stationName = NSMutableString()
     var SiName = NSMutableString()
+    var stationId = NSMutableString()
+    
     
     @IBAction func micButtonAction(_ sender: Any) {
     }
     @IBAction func searchButtonAction(_ sender: Any) {
-        beginXmlFileParsing(name: String(searchTextField.text!))
+        beginXmlFileParsing(parameter: "keyword", value: String(searchTextField.text!))
         // beginParsing()
     }
     @IBAction func chooseCategoryAction(_ sender: Any) {
+        let index = chooseCategoryControl.selectedSegmentIndex
+        switch index {
+        case 0: // 정류장
+           
+            break
+        case 1:// 버스
+            
+            break
+        default:
+            break
+        }
+        
     }
     @IBAction func backwardViewController (segue: UIStoryboardSegue) {
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        beginXmlFileParsing(name: "강남")
+        beginXmlFileParsing(parameter: "keyword", value: "강남")
     }
     
-    func beginXmlFileParsing(name: String)
+    func beginXmlFileParsing(parameter: String, value: String)
     {
-        // 경기도꺼
-        // let path = "https://openapi.gg.go.kr/BusStation?ServiceKey=b84002c9970245a8b2e12f849ed7f049&SIGUN_NM="
-        let path = "http://openapi.gbis.go.kr/ws/rest/busstationservice?serviceKey=cOXFXk2qE%2FhuIiYcsMQ4gv032heBUTwuP%2FDQwW0TskxrWGtrdVC6bJPNmJ2CbVcFq6P1eirV9X5d5fql75eeRg%3D%3D&keyword="
-        // let name = "강남"
-        
-        // let fullPath = path + name
-        let quaryPath = name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!    // urlQueryAllowed
+        let path = "http://openapi.gbis.go.kr/ws/rest/busstationservice?serviceKey=cOXFXk2qE%2FhuIiYcsMQ4gv032heBUTwuP%2FDQwW0TskxrWGtrdVC6bJPNmJ2CbVcFq6P1eirV9X5d5fql75eeRg%3D%3D&"
+        let valueEncoding = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!    // urlQueryAllowed
+        let quaryURL = path + parameter + "=" + valueEncoding
         
         posts = []
-        parser = XMLParser(contentsOf:(URL(string: path + quaryPath  ))!)!
+        parser = XMLParser(contentsOf:(URL(string: quaryURL ))!)!
         
         parser.delegate = self
         
@@ -81,6 +92,8 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
             stationName = ""
             SiName = NSMutableString()
             SiName = ""
+            stationId = NSMutableString()
+            stationId = ""
         }
     }
     
@@ -91,6 +104,9 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
         }
         else if element.isEqual(to: "regionName") {
             SiName.append(string)
+        }
+        else if element.isEqual(to: "stationId") {
+            stationId.append(string)
         }
     }
     
@@ -103,9 +119,11 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
             if !SiName.isEqual( nil) {
                 elements.setObject(SiName, forKey: "regionName" as NSCopying)
             }
+            if !stationId.isEqual( nil) {
+                elements.setObject(stationId, forKey: "stationId" as NSCopying)
+            }
             
             posts.add(elements)
-            print(posts)
         }
     }
     
@@ -122,6 +140,17 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
     {
         // print(posts.count)
         return posts.count
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let secondViewController = segue.destination as? BusInfoViewController else { return }
+        
+        let cell = sender as! UITableViewCell
+        let indexPath = self.listTableView.indexPath(for: cell)
+        
+       // secondViewController.stationID = ""
+        secondViewController.stationID = (posts.object(at: indexPath!.row) as AnyObject).value(forKey: "stationId") as! NSString as! NSMutableString
     }
 
 }
