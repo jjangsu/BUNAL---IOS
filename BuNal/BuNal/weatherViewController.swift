@@ -16,6 +16,8 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
     @IBOutlet weak var TMNLabel: UILabel!   // 최저 기온
     @IBOutlet weak var TMXLabel: UILabel!   // 최고 기온
     @IBOutlet weak var REHLabel: UILabel!   // 습도
+    @IBOutlet weak var VECLabel: UILabel!   // 풍향
+    @IBOutlet weak var WSDLabel: UILabel!   // 풍속
     
     var parser = XMLParser()
     var posts = NSMutableArray()
@@ -32,6 +34,8 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
     
     var currentDate : String = ""
     var skyCondition : Int = -1
+    var vecValue : Int = -1
+    var wsdValue : Double = -1.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,8 +91,22 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
             else if ((posts[i] as AnyObject).value(forKey: "category") as! NSString as! NSMutableString == "REH") {  // 최고 기온
                 REHLabel.text = "습도: \((posts[i] as AnyObject).value(forKey: "fcstValue") as! NSString as! NSMutableString as String)%"
             }
+            else if ((posts[i] as AnyObject).value(forKey: "category") as! NSString as! NSMutableString == "VEC") {  // 풍향
+                if vecValue == -1
+                {
+                    vecValue = Int(((posts[i] as AnyObject).value(forKey: "fcstValue") as! NSString as! NSMutableString).integerValue)
+                }
+            }
+            else if ((posts[i] as AnyObject).value(forKey: "category") as! NSString as! NSMutableString == "WSD") {  // 풍속
+                if wsdValue == -1.0 {
+                    wsdValue = Double(((posts[i] as AnyObject).value(forKey: "fcstValue") as! NSString as! NSMutableString).doubleValue)
+                }
+                
+            }
         }
         setSkyImage(condition: skyCondition)
+        setVec(vec: vecValue)
+        setWSD(wsd: wsdValue)
         // listTableView!.reloadData()
     }
     
@@ -108,7 +126,47 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
             break
         }
     }
-
+    
+    func setVec(vec: Int)
+    {
+        var dir : String = ""
+        
+        if 0 <= vec && vec < 45 {
+            dir = "N-NE"
+        } else if 45 <= vec && vec < 90 {
+            dir = "NE-E"
+        } else if 90 <= vec && vec < 135 {
+            dir = "E-SE"
+        } else if 135 <= vec && vec < 180 {
+            dir = "SE-S"
+        } else if 180 <= vec && vec < 225 {
+            dir = "S-SW"
+        } else if 225 <= vec && vec < 270 {
+            dir = "SW-W"
+        } else if 270 <= vec && vec < 315 {
+            dir = "W-NW"
+        } else if 315 <= vec && vec < 360 {
+            dir = "NE-N"
+        }
+        
+        VECLabel.text = "풍향: \(dir) - \(vec)m/s"
+    }
+    
+    func setWSD(wsd: Double)
+    {
+        var desc = ""
+        if wsd < 4.0 {
+            desc = "바람이 약하다"
+        } else if 4.0 <= wsd && wsd < 9.0 {
+            desc = "바람이 약간 강하다"
+        } else if 9.0 <= wsd && wsd < 14.0 {
+            desc = "바람이 강하다"
+        } else if 14.0 <= wsd {
+            desc = "바람이 매우 강하다"
+        }
+        
+        WSDLabel.text = "풍속: \(wsd)m/s - \(desc)"
+    }
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String: String]) {
         element = elementName as NSString
