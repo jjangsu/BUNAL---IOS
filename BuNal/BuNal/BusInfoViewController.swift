@@ -22,6 +22,12 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
     var locationX = NSMutableString()
     var locationY = NSMutableString()
     
+    var currentCategory : Int = 0
+    
+    var routeID = NSMutableString()
+    var stationName = NSMutableString()
+    var stationSeq = NSMutableString()
+    
     @IBOutlet weak var busListTableview: UITableView!
     
     @IBAction func backwardViewController(segue: UIStoryboardSegue) {
@@ -30,15 +36,24 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // print(stationID)
-        beginXmlFileParsing(parameter: "stationId", value: stationID)
+
+        if currentCategory == 0 {
+            beginXmlFileParsing(category: currentCategory, parameter: "stationId", value: stationID)
+        } else if currentCategory == 1 {
+            beginXmlFileParsing(category: currentCategory, parameter: "routeId", value: routeID)
+        }
         // Do any additional setup after loading the view.
     }
     
-    func beginXmlFileParsing(parameter: String, value: NSMutableString)
+    func beginXmlFileParsing(category: Int, parameter: String, value: NSMutableString)
     {
-        let path = "http://openapi.gbis.go.kr/ws/rest/busstationservice/route?serviceKey=cOXFXk2qE%2FhuIiYcsMQ4gv032heBUTwuP%2FDQwW0TskxrWGtrdVC6bJPNmJ2CbVcFq6P1eirV9X5d5fql75eeRg%3D%3D&"
-        // let valueEncoding = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!    // urlQueryAllowed
+        var path = ""
+        if category == 0 {
+        path = "http://openapi.gbis.go.kr/ws/rest/busstationservice/route?serviceKey=cOXFXk2qE%2FhuIiYcsMQ4gv032heBUTwuP%2FDQwW0TskxrWGtrdVC6bJPNmJ2CbVcFq6P1eirV9X5d5fql75eeRg%3D%3D&"
+        } else if category == 1 {
+            path = "http://openapi.gbis.go.kr/ws/rest/busrouteservice/station?serviceKey=cOXFXk2qE%2FhuIiYcsMQ4gv032heBUTwuP%2FDQwW0TskxrWGtrdVC6bJPNmJ2CbVcFq6P1eirV9X5d5fql75eeRg%3D%3D&"
+        }
+        
         let quaryURL = path + parameter + "=" + String(value)
 
         posts = []
@@ -71,21 +86,49 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
             routeTypeName = NSMutableString()
             routeTypeName = ""
         }
+        else if (elementName as NSString ).isEqual(to: "busRouteStationList")
+        {
+            elements = NSMutableDictionary()
+            elements = [:]
+            stationName = NSMutableString()
+            stationName = ""
+            stationSeq = NSMutableString()
+            stationSeq = ""
+            locationX = NSMutableString()
+            locationX = ""
+            locationY = NSMutableString()
+            locationY = ""
+        }
     }
     
     func parser(_ parser: XMLParser, foundCharacters string: String)
     {
-        if element.isEqual(to: "routeName"){
-            routeName.append(string)
-        }
-        else if element.isEqual(to: "routeTypeName") {
-            routeTypeName.append(string)
+        if currentCategory == 0 {
+            if element.isEqual(to: "routeName"){
+                routeName.append(string)
+            }
+            else if element.isEqual(to: "routeTypeName") {
+                routeTypeName.append(string)
+            }
+        } else if currentCategory == 1 {
+           if element.isEqual(to: "stationName"){
+               stationName.append(string)
+           }
+           else if element.isEqual(to: "stationSeq") {
+               stationSeq.append(string)
+           }
+           else if element.isEqual(to: "x") {
+                locationX.append(string)
+           }
+           else if element.isEqual(to: "y") {
+                locationY.append(string)
+            }
         }
     }
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI namspaceURI: String?, qualifiedName qName: String?)
     {
-        if(elementName as NSString).isEqual(to: "busRouteList") {
+        if (elementName as NSString).isEqual(to: "busRouteList") {
             if !routeName.isEqual(nil) {
                 elements.setObject(routeName, forKey: "routeName" as NSCopying)
             }
@@ -95,13 +138,35 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
             
             posts.add(elements)
         }
+        else if (elementName as NSString).isEqual(to: "busRouteStationList") {
+            if !stationName.isEqual(nil) {
+                elements.setObject(stationName, forKey: "stationName" as NSCopying)
+            }
+            if !stationSeq.isEqual(nil) {
+                elements.setObject(stationSeq, forKey: "stationSeq" as NSCopying)
+            }
+            if !locationX.isEqual(nil) {
+                elements.setObject(locationX, forKey: "x" as NSCopying)
+            }
+            if !locationY.isEqual(nil) {
+                elements.setObject(locationY, forKey: "y" as NSCopying)
+            }
+            
+            posts.add(elements)
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
-        cell.textLabel?.text = (posts.object(at: indexPath.row) as AnyObject).value(forKey: "routeName") as! NSString as String
-        cell.detailTextLabel?.text = (posts.object(at: indexPath.row) as AnyObject).value(forKey: "routeTypeName") as! NSString as String
+        if currentCategory == 0 {
+            cell.textLabel?.text = (posts.object(at: indexPath.row) as AnyObject).value(forKey: "routeName") as! NSString as String
+            cell.detailTextLabel?.text = (posts.object(at: indexPath.row) as AnyObject).value(forKey: "routeTypeName") as! NSString as String
+        }
+        else if currentCategory == 1 {
+            cell.textLabel?.text = (posts.object(at: indexPath.row) as AnyObject).value(forKey: "stationName") as! NSString as String
+            cell.detailTextLabel?.text = (posts.object(at: indexPath.row) as AnyObject).value(forKey: "stationSeq") as! NSString as String
+        }
         
         return cell
     }
@@ -115,18 +180,18 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let secondViewController = segue.destination as? MapViewController else { return }
         
-        secondViewController.locationX = self.locationX
-        secondViewController.locationY = self.locationY
+        let cell = sender as! UITableViewCell
+        let indexPath = self.busListTableview.indexPath(for: cell)
+        
+        
+        if currentCategory == 0 {
+            secondViewController.locationX = self.locationX
+            secondViewController.locationY = self.locationY
+        }
+        else if currentCategory == 1 {
+            secondViewController.locationX = (posts.object(at: indexPath!.row) as AnyObject).value(forKey: "x") as! NSString as! NSMutableString
+            secondViewController.locationY = (posts.object(at: indexPath!.row) as AnyObject).value(forKey: "y") as! NSString as! NSMutableString
+        }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -28,7 +28,7 @@
                             <outletCollection property="gestureRecognizers" destination="yQM-Xb-sGl" appends="YES" id="48d-P9-MZI"/>
                         </connections>
                     </view>
-                    <navigationItem key="navigationItem" id="Iyd-Nr-wlb"/>
+                    <navigationItem key="navigationItem" title="화면을 탭하세요 :0" id="1GS-UC-fYs"/>
                     <connections>
                         <outlet property="LogoImageView" destination="mGt-iL-6lc" id="JUX-1n-S9q"/>
                     </connections>
@@ -76,29 +76,16 @@
                                     <segment title="버스 번호"/>
                                 </segments>
                                 <connections>
-                                    <action selector="chooseCategoryAction:" destination="7A3-Np-o62" eventType="valueChanged" id="sXj-P4-m7j"/>
+                                    <action selector="categoryPressed:" destination="7A3-Np-o62" eventType="valueChanged" id="A9q-Kg-ItM"/>
                                 </connections>
                             </segmentedControl>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0fW-a3-bXj">
-                                <rect key="frame" x="56" y="105" width="259" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="검색하슈" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Fe-Q1-11O">
-                                <rect key="frame" x="56" y="80" width="119" height="24"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" sectionIndexMinimumDisplayRowCount="1" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Zkh-Cy-cJQ">
                                 <rect key="frame" x="16" y="152" width="343" height="431"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <color key="sectionIndexBackgroundColor" red="0.50646026649999998" green="0.84692762310000003" blue="0.28334699600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="gray" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="Otf-2q-M7I" detailTextLabel="4w6-LV-RAj" imageView="cC5-oH-e8S" style="IBUITableViewCellStyleSubtitle" id="Not-1z-jKo">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="gray" indentationLevel="2" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="Otf-2q-M7I" detailTextLabel="4w6-LV-RAj" imageView="cC5-oH-e8S" style="IBUITableViewCellStyleSubtitle" id="Not-1z-jKo">
                                         <rect key="frame" x="0.0" y="28" width="343" height="55.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Not-1z-jKo" id="mfF-n5-04Q">
@@ -119,7 +106,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="car.fill" catalog="system" id="cC5-oH-e8S">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" insetsLayoutMarginsFromSafeArea="NO" image="car.fill" catalog="system" id="cC5-oH-e8S">
                                                     <rect key="frame" x="15" y="19" width="24" height="17.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <color key="tintColor" red="0.50646026652602172" green="0.84692762305699487" blue="0.28334699595463786" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -136,18 +123,25 @@
                                     <outlet property="delegate" destination="7A3-Np-o62" id="YvD-7X-44j"/>
                                 </connections>
                             </tableView>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0fW-a3-bXj">
+                                <rect key="frame" x="56" y="105" width="259" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="검색하슈" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Fe-Q1-11O">
+                                <rect key="frame" x="56" y="80" width="119" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="Ilz-8M-bg9"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="MAv-ff-buW">
-                        <barButtonItem key="leftBarButtonItem" image="arrow.counterclockwise" catalog="system" style="plain" id="Y9C-9K-JeD">
-                            <connections>
-                                <segue destination="4Mf-w0-L8M" kind="unwind" unwindAction="backwardViewControllerWithSegue:" id="OYu-1Y-X9h"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="BUNAL" id="kUl-wU-n4G"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="chooseCategoryControl" destination="Hhu-66-xEK" id="Fq4-xu-FYp"/>
@@ -159,7 +153,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DDg-Ba-cbq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="4Mf-w0-L8M" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2796" y="111.99400299850076"/>
         </scene>
@@ -185,21 +178,21 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wqx-DW-r6E">
-                                                    <rect key="frame" x="54" y="10" width="33.5" height="20.5"/>
+                                                    <rect key="frame" x="107" y="10" width="33.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="N3W-Ui-uKA">
-                                                    <rect key="frame" x="54" y="31.5" width="44" height="14.5"/>
+                                                    <rect key="frame" x="107" y="31.5" width="44" height="14.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="car" catalog="system" id="fC8-Od-9Em">
-                                                    <rect key="frame" x="15" y="19" width="24" height="17.5"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="car" id="fC8-Od-9Em">
+                                                    <rect key="frame" x="15" y="0.0" width="77" height="55.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
@@ -220,17 +213,16 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="Dya-DX-4tx"/>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem title="Item" image="cloud" catalog="system" width="430" id="6NF-El-tg6">
-                            <connections>
-                                <segue destination="OIm-UL-Ohs" kind="show" id="VYN-MI-OLz"/>
-                            </connections>
-                        </barButtonItem>
-                    </toolbarItems>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="정류장 도착 버스 정보" id="nhs-HL-EfY">
                         <barButtonItem key="leftBarButtonItem" image="arrow.counterclockwise" catalog="system" style="plain" id="rVM-Jn-FMa">
                             <connections>
                                 <segue destination="y95-Nu-She" kind="unwind" unwindAction="backwardViewControllerWithSegue:" id="AJc-Ki-HFZ"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="sun.min" catalog="system" id="veF-BZ-Rdz">
+                            <connections>
+                                <segue destination="OIm-UL-Ohs" kind="show" id="qiG-ut-o8l"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -315,7 +307,7 @@
         <!--Weather-->
         <scene sceneID="N71-aC-OnI">
             <objects>
-                <viewController title="Weather" id="OIm-UL-Ohs" sceneMemberID="viewController">
+                <viewController title="Weather" id="OIm-UL-Ohs" customClass="WeatherViewController" customModule="BuNal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jUS-zh-vzR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -329,6 +321,10 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="back.png" translatesAutoresizingMaskIntoConstraints="NO" id="naO-BQ-8KL">
+                                <rect key="frame" x="0.0" y="30" width="375" height="637"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="e2R-M2-clZ"/>
@@ -416,15 +412,16 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="Fj0-Dn-uYz"/>
-        <segue reference="WIT-Xx-1GP"/>
+        <segue reference="1XO-2G-mch"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.counterclockwise" catalog="system" width="115" height="128"/>
-        <image name="car" catalog="system" width="128" height="93"/>
+        <image name="back.png" width="315.83999633789062" height="503.51998901367188"/>
+        <image name="car" width="128" height="93"/>
         <image name="car.fill" catalog="system" width="128" height="93"/>
-        <image name="cloud" catalog="system" width="128" height="87"/>
         <image name="location" catalog="system" width="128" height="115"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="mic.fill" catalog="system" width="108" height="128"/>
+        <image name="sun.min" catalog="system" width="128" height="121"/>
     </resources>
 </document>

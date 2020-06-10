@@ -26,41 +26,57 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
     var stationName = NSMutableString()
     var SiName = NSMutableString()
     var stationId = NSMutableString()
+    
     var locationX = NSMutableString()
     var locationY = NSMutableString()
     
+    var routeName = NSMutableString()
+    var regionName = NSMutableString()
+    var routeId = NSMutableString()
     
-    @IBAction func micButtonAction(_ sender: Any) {
-    }
-    @IBAction func searchButtonAction(_ sender: Any) {
-        beginXmlFileParsing(parameter: "keyword", value: String(searchTextField.text!))
-        // beginParsing()
-    }
-    @IBAction func chooseCategoryAction(_ sender: Any) {
-        let index = chooseCategoryControl.selectedSegmentIndex
-        switch index {
-        case 0: // 정류장
-           
-            break
-        case 1:// 버스
-            
+    var currentCategory : Int = 0
+    
+    let busStationPath = "http://openapi.gbis.go.kr/ws/rest/busstationservice?serviceKey=cOXFXk2qE%2FhuIiYcsMQ4gv032heBUTwuP%2FDQwW0TskxrWGtrdVC6bJPNmJ2CbVcFq6P1eirV9X5d5fql75eeRg%3D%3D&"
+    let busListPath = "http://openapi.gbis.go.kr/ws/rest/busrouteservice?serviceKey=cOXFXk2qE%2FhuIiYcsMQ4gv032heBUTwuP%2FDQwW0TskxrWGtrdVC6bJPNmJ2CbVcFq6P1eirV9X5d5fql75eeRg%3D%3D&"
+    
+    @IBAction func categoryPressed(_ sender: UISegmentedControl) {
+        switch chooseCategoryControl.selectedSegmentIndex {
+        case 0:
+            currentCategory = 0
+            beginXmlFileParsing(path: busStationPath, parameter: "keyword", value: "강남")
+        case 1:
+            currentCategory = 1
+            beginXmlFileParsing(path: busListPath, parameter: "keyword", value: "11")
             break
         default:
             break
         }
+    }
+    
+    @IBAction func micButtonAction(_ sender: Any) {
+    }
+    
+    @IBAction func searchButtonAction(_ sender: Any) {
+        if currentCategory == 0 {
+            beginXmlFileParsing(path: busStationPath, parameter: "keyword", value: String(searchTextField.text!))
+        }
+        else if currentCategory == 1 {
+            beginXmlFileParsing(path: busListPath, parameter: "keyword", value: String(searchTextField.text!))
+        }
         
     }
+    
     @IBAction func backwardViewController (segue: UIStoryboardSegue) {
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        beginXmlFileParsing(parameter: "keyword", value: "강남")
+        currentCategory = 0
+        beginXmlFileParsing(path: busStationPath, parameter: "keyword", value: "강남")
     }
     
-    func beginXmlFileParsing(parameter: String, value: String)
+    func beginXmlFileParsing(path: String, parameter: String, value: String)
     {
-        let path = "http://openapi.gbis.go.kr/ws/rest/busstationservice?serviceKey=cOXFXk2qE%2FhuIiYcsMQ4gv032heBUTwuP%2FDQwW0TskxrWGtrdVC6bJPNmJ2CbVcFq6P1eirV9X5d5fql75eeRg%3D%3D&"
         let valueEncoding = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!    // urlQueryAllowed
         let quaryURL = path + parameter + "=" + valueEncoding
         
@@ -84,7 +100,6 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String: String]) {
         element = elementName as NSString
         
-        // print("CurrentElementl: [\(elementName)]")
         
         if ( elementName as NSString ).isEqual(to: "busStationList")
         {
@@ -100,25 +115,50 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
             locationX = ""
             locationY = NSMutableString()
             locationY = ""
+            
+        }
+        if ( elementName as NSString ).isEqual(to: "busRouteList")
+        {
+            elements = NSMutableDictionary()
+            elements = [:]
+            routeName = NSMutableString()
+            routeName = ""
+            regionName = NSMutableString()
+            regionName = ""
+            routeId = NSMutableString()
+            routeId = ""
         }
     }
     
     func parser(_ parser: XMLParser, foundCharacters string: String)
     {
-        if element.isEqual(to: "stationName"){
-            stationName.append(string)
+        if currentCategory == 0 {
+            if element.isEqual(to: "stationName"){
+                stationName.append(string)
+            }
+            else if element.isEqual(to: "regionName") {
+                SiName.append(string)
+            }
+            else if element.isEqual(to: "stationId") {
+                stationId.append(string)
+            }
+            else if element.isEqual(to: "x") {
+                locationX.append(string)
+            }
+            else if element.isEqual(to: "y") {
+                locationY.append(string)
+            }
         }
-        else if element.isEqual(to: "regionName") {
-            SiName.append(string)
-        }
-        else if element.isEqual(to: "stationId") {
-            stationId.append(string)
-        }
-        else if element.isEqual(to: "x") {
-            locationX.append(string)
-        }
-        else if element.isEqual(to: "y") {
-            locationY.append(string)
+        else if currentCategory == 1 {
+            if element.isEqual(to: "routeName") {
+                routeName.append(string)
+            }
+            else if element.isEqual(to: "regionName") {
+                regionName.append(string)
+            }
+            else if element.isEqual(to: "routeId") {
+                routeId.append(string)
+            }
         }
     }
     
@@ -143,13 +183,35 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
             
             posts.add(elements)
         }
+        
+        if(elementName as NSString).isEqual(to: "busRouteList") {
+            if !routeName.isEqual( nil) {
+                elements.setObject(routeName, forKey: "routeName" as NSCopying)
+            }
+            if !regionName.isEqual( nil) {
+                elements.setObject(regionName, forKey: "regionName" as NSCopying)
+            }
+            if !routeId.isEqual( nil) {
+                elements.setObject(routeId, forKey: "routeId" as NSCopying)
+            }
+            
+            posts.add(elements)
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
+        if currentCategory == 0 {
         cell.textLabel?.text = (posts.object(at: indexPath.row) as AnyObject).value(forKey: "stationName") as! NSString as String
-        cell.detailTextLabel?.text = (posts.object(at: indexPath.row) as AnyObject).value(forKey: "regionName") as! NSString as String
+            cell.detailTextLabel?.text = (posts.object(at: indexPath.row) as AnyObject).value(forKey: "regionName") as! NSString as String
+        }
+        else if currentCategory == 1 {
+            
+                cell.textLabel?.text = (posts.object(at: indexPath.row) as AnyObject).value(forKey: "routeName") as! NSString as String
+                cell.detailTextLabel?.text = (posts.object(at: indexPath.row) as AnyObject).value(forKey: "regionName") as! NSString as String
+        }
         
         return cell
     }
@@ -167,10 +229,17 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
         let cell = sender as! UITableViewCell
         let indexPath = self.listTableView.indexPath(for: cell)
         
-       // secondViewController.stationID = ""
-        secondViewController.stationID = (posts.object(at: indexPath!.row) as AnyObject).value(forKey: "stationId") as! NSString as! NSMutableString
-        secondViewController.locationX = (posts.object(at: indexPath!.row) as AnyObject).value(forKey: "x") as! NSString as! NSMutableString
-        secondViewController.locationY = (posts.object(at: indexPath!.row) as AnyObject).value(forKey: "y") as! NSString as! NSMutableString
+        secondViewController.currentCategory = self.currentCategory
+        
+        
+        if currentCategory == 0 {
+            secondViewController.locationX = (posts.object(at: indexPath!.row) as AnyObject).value(forKey: "x") as! NSString as! NSMutableString
+            secondViewController.locationY = (posts.object(at: indexPath!.row) as AnyObject).value(forKey: "y") as! NSString as! NSMutableString
+            
+            secondViewController.stationID = (posts.object(at: indexPath!.row) as AnyObject).value(forKey: "stationId") as! NSString as! NSMutableString
+        } else if currentCategory == 1 {
+            secondViewController.routeID = (posts.object(at: indexPath!.row) as AnyObject).value(forKey: "routeId") as! NSString as! NSMutableString
+        }
     }
 
 }
