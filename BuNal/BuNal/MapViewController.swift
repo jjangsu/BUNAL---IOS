@@ -23,9 +23,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         
         // mapView.delegate = self
         
-        print("\(locationX) , \(locationY)")
-        
-        
+        // print("\(locationX) , \(locationY)")
         
         setAnnotation(latiValue: locationY.doubleValue, longtiValue: locationX.doubleValue, delta: 0.1, title: "버스", subtitle: "정류장")
         
@@ -49,5 +47,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         annotation.subtitle = strSubTitle
         mapView.addAnnotation(annotation)
     }
+    
+    
 
 }
