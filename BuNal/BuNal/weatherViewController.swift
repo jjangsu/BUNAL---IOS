@@ -12,6 +12,10 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
     
     @IBOutlet weak var weatherIcon: UIImageView!
     @IBOutlet weak var backgroundImage: UIImageView!
+    @IBOutlet weak var POPLabel: UILabel!   // 강수확률
+    @IBOutlet weak var TMNLabel: UILabel!   // 최저 기온
+    @IBOutlet weak var TMXLabel: UILabel!   // 최고 기온
+    @IBOutlet weak var REHLabel: UILabel!   // 습도
     
     var parser = XMLParser()
     var posts = NSMutableArray()
@@ -19,19 +23,27 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
     var element = NSString()
     
     var category = NSMutableString()
+    var fcstValue = NSMutableString()
     
     var locationX = NSMutableString()
     var locationY = NSMutableString()
     
     let converter = LambertProjection()
     
+    var currentDate : String = ""
+    var skyCondition : Int = -1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         backgroundImage.image = UIImage(named: "Resource/back.png")
         weatherIcon.image = UIImage(named: "Resource/sun.png")
         
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        currentDate = formatter.string(from: Date())
+        
         let (x, y) = converter.convertGrid(lon: locationX.doubleValue, lat: locationY.doubleValue)
-        beginXmlFileParsing(numOfRows: String(10), baseData: String(20200611), baseTime: String("0200"), nx: String(x), ny: String(y))
+        beginXmlFileParsing(numOfRows: String(104), baseData: currentDate, baseTime: String("0200"), nx: String(x), ny: String(y))
     }
     // 13가지
     // 00 03 06 09 12 15 18 21
@@ -56,7 +68,45 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
             print("weather parse failure!")
         }
         
+        for i in 0..<posts.count
+        {
+            if ((posts[i] as AnyObject).value(forKey: "category") as! NSString as! NSMutableString == "POP") {  // 강수량
+                POPLabel.text = "강수확률: \((posts[i] as AnyObject).value(forKey: "fcstValue") as! NSString as! NSMutableString as String)%"
+            }
+            else if ((posts[i] as AnyObject).value(forKey: "category") as! NSString as! NSMutableString == "TMN") {  // 최저 기온
+                TMNLabel.text = "\((posts[i] as AnyObject).value(forKey: "fcstValue") as! NSString as! NSMutableString as String)°C /"
+            }
+            else if ((posts[i] as AnyObject).value(forKey: "category") as! NSString as! NSMutableString == "TMX") {  // 최고 기온
+                TMXLabel.text = "\((posts[i] as AnyObject).value(forKey: "fcstValue") as! NSString as! NSMutableString as String)°C"
+            }
+            else if ((posts[i] as AnyObject).value(forKey: "category") as! NSString as! NSMutableString == "SKY") {  // 하늘
+                if skyCondition == -1 {
+                    skyCondition = Int((posts[i] as AnyObject).value(forKey: "fcstValue") as! NSString as! NSMutableString as String)!
+                }
+            }
+            else if ((posts[i] as AnyObject).value(forKey: "category") as! NSString as! NSMutableString == "REH") {  // 최고 기온
+                REHLabel.text = "습도: \((posts[i] as AnyObject).value(forKey: "fcstValue") as! NSString as! NSMutableString as String)%"
+            }
+        }
+        setSkyImage(condition: skyCondition)
         // listTableView!.reloadData()
+    }
+    
+    func setSkyImage(condition: Int)
+    {
+        switch condition {
+        case 1: // 맑음
+            weatherIcon.image = UIImage(named: "Resource/sun.png")
+            break
+        case 3: // 구름 많음
+            weatherIcon.image = UIImage(named: "Resource/cloud_sun.png")
+            break
+        case 4: // 흐림
+            weatherIcon.image = UIImage(named: "Resource/cloud.png")
+            break
+        default:
+            break
+        }
     }
 
     
@@ -69,6 +119,8 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
             elements = [:]
             category = NSMutableString()
             category = ""
+            fcstValue = NSMutableString()
+            fcstValue = ""
         }
         
     }
@@ -78,7 +130,10 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
         
         if element.isEqual(to: "category") {
             category.append(string)
-            print(string)
+            // print(string)
+        }
+        else if element.isEqual(to: "fcstValue") {
+            fcstValue.append(string)
         }
     }
     
@@ -88,11 +143,13 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
             if !category.isEqual(nil) {
                 elements.setObject(category, forKey: "category" as NSCopying)
             }
+            if !fcstValue.isEqual(nil) {
+                elements.setObject(fcstValue, forKey: "fcstValue" as NSCopying)
+            }
+        
             
             posts.add(elements)
         }
-        
-        
     }
 
 }
