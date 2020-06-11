@@ -224,7 +224,7 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let secondViewController = segue.destination as? BusInfoViewController else { return }
+        guard let secondViewController = segue.destination as? LodingViewController else { return }
         
         let cell = sender as! UITableViewCell
         let indexPath = self.listTableView.indexPath(for: cell)

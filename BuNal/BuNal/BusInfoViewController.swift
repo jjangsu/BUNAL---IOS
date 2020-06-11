@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+
 class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDataSource, UITableViewDelegate {
 
     var parser = XMLParser()
@@ -15,7 +17,13 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
     var elements = NSMutableDictionary()
     var element = NSString()
     
+    
+    var postsArriv = NSMutableArray()
+    var elementsArriv = NSMutableDictionary()
+    var elementArriv = NSString()
+    
     var routeName = NSMutableString()
+    var routeId = NSMutableString()
     var routeTypeName = NSMutableString()
     
     var stationID = NSMutableString()
@@ -28,7 +36,16 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
     var stationName = NSMutableString()
     var stationSeq = NSMutableString()
     
+    var plateNo1 = NSMutableString()
+    var plateNo2 = NSMutableString()
+    var predictTime1 = NSMutableString()
+    var predictTime2 = NSMutableString()
+    var remainSeatCnt1 = NSMutableString()
+    var remainSeatCnt2 = NSMutableString()
+    var routeIdArriv = NSMutableString()
+    
     @IBOutlet weak var busListTableview: UITableView!
+
     
     @IBAction func backwardViewController(segue: UIStoryboardSegue) {
         
@@ -36,11 +53,16 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        busListTableview.estimatedRowHeight = 60
+        busListTableview.rowHeight = 60
 
+        // print(stationID)
         if currentCategory == 0 {
             beginXmlFileParsing(category: currentCategory, parameter: "stationId", value: stationID)
         } else if currentCategory == 1 {
             beginXmlFileParsing(category: currentCategory, parameter: "routeId", value: routeID)
+            //beginXmlFileParsing(category: 4, parameter: "stationId", value: stationID)
         }
         // Do any additional setup after loading the view.
     }
@@ -56,7 +78,11 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
         
         let quaryURL = path + parameter + "=" + String(value)
 
-        posts = []
+        if category == 0 || category == 1 {
+            posts = []
+        } else {
+            postsArriv = []
+        }
         parser = XMLParser(contentsOf:(URL(string: quaryURL ))!)!
 
         parser.delegate = self
@@ -68,21 +94,22 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
         } else {
             print("parse failure!")
         }
-
-        busListTableview!.reloadData()
+        if category == 0 || category == 1 {
+            busListTableview!.reloadData()
+        }
     }
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String: String]) {
-        element = elementName as NSString
-        
         // print("CurrentElementl: [\(elementName)]")
-        
+         element = elementName as NSString
         if ( elementName as NSString ).isEqual(to: "busRouteList")
         {
             elements = NSMutableDictionary()
             elements = [:]
             routeName = NSMutableString()
             routeName = ""
+            routeId = NSMutableString()
+            routeId = ""
             routeTypeName = NSMutableString()
             routeTypeName = ""
         }
@@ -99,6 +126,7 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
             locationY = NSMutableString()
             locationY = ""
         }
+       
     }
     
     func parser(_ parser: XMLParser, foundCharacters string: String)
@@ -110,7 +138,11 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
             else if element.isEqual(to: "routeTypeName") {
                 routeTypeName.append(string)
             }
-        } else if currentCategory == 1 {
+            else if element.isEqual(to: "routeId") {
+                routeId.append(string)
+            }
+        }
+        else if currentCategory == 1 {
            if element.isEqual(to: "stationName"){
                stationName.append(string)
            }
@@ -124,6 +156,7 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
                 locationY.append(string)
             }
         }
+        
     }
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI namspaceURI: String?, qualifiedName qName: String?)
@@ -131,6 +164,9 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
         if (elementName as NSString).isEqual(to: "busRouteList") {
             if !routeName.isEqual(nil) {
                 elements.setObject(routeName, forKey: "routeName" as NSCopying)
+            }
+            if !routeId.isEqual(nil) {
+                elements.setObject(routeId, forKey: "routeId" as NSCopying)
             }
             if !routeTypeName.isEqual(nil) {
                 elements.setObject(routeTypeName, forKey: "routeTypeName" as NSCopying)
@@ -154,18 +190,36 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
             
             posts.add(elements)
         }
+       
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! BusInfoTableViewCell
         
         if currentCategory == 0 {
-            cell.textLabel?.text = (posts.object(at: indexPath.row) as AnyObject).value(forKey: "routeName") as! NSString as String
-            cell.detailTextLabel?.text = (posts.object(at: indexPath.row) as AnyObject).value(forKey: "routeTypeName") as! NSString as String
+            cell.titleLabel.text = (posts.object(at: indexPath.row) as AnyObject).value(forKey: "routeName") as! NSString as String
+            
+            cell.busImage.isHidden = true
+            cell.remainSeatCnt.isHidden = true
+            cell.plateNo.isHidden = true
+            
+            cell.locationNo1.isHidden = false
+            cell.locationNo2.isHidden = false
+            cell.predictTime1.isHidden = false
+            cell.predictTime2.isHidden = false
         }
         else if currentCategory == 1 {
-            cell.textLabel?.text = (posts.object(at: indexPath.row) as AnyObject).value(forKey: "stationName") as! NSString as String
-            cell.detailTextLabel?.text = (posts.object(at: indexPath.row) as AnyObject).value(forKey: "stationSeq") as! NSString as String
+            cell.busImage.isHidden = false
+            cell.remainSeatCnt.isHidden = false
+            cell.plateNo.isHidden = false
+            
+            cell.locationNo1.isHidden = true
+            cell.locationNo2.isHidden = true
+            cell.predictTime1.isHidden = true
+            cell.predictTime2.isHidden = true
+            
+            cell.titleLabel.text = (posts.object(at: indexPath.row) as AnyObject).value(forKey: "stationName") as! NSString as String
+            cell.busImage.image = UIImage(named: "Resource/grayBus.png")
         }
         
         return cell
