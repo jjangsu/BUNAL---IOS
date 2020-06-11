@@ -40,6 +40,10 @@ class LodingViewController: UIViewController, XMLParserDelegate {
     var remainSeatCnt1 = NSMutableString()
     var remainSeatCnt2 = NSMutableString()
     var routeIdArriv = NSMutableString()
+    var routeIDArriv = NSMutableString()
+    var locationNo1 = NSMutableString()
+    var locationNo2 = NSMutableString()
+    var stationIdArrive = NSMutableString()
     
     
     override func viewDidLoad() {
@@ -47,7 +51,7 @@ class LodingViewController: UIViewController, XMLParserDelegate {
         
         image.image = UIImage(named: "Resource/back.png")
         
-        beginXmlFileParsing(category: 2, parameter: "stationId", value: stationID)
+        beginXmlFileParsing(category: -1, parameter: "stationId", value: stationID)
         print("loding finish")
         // 다음 씬으로 전환해주기
        
@@ -56,9 +60,7 @@ class LodingViewController: UIViewController, XMLParserDelegate {
     
     func beginXmlFileParsing(category: Int, parameter: String, value: NSMutableString)
     {
-        var path = ""
-
-        path = "http://openapi.gbis.go.kr/ws/rest/busarrivalservice/station?serviceKey=cOXFXk2qE%2FhuIiYcsMQ4gv032heBUTwuP%2FDQwW0TskxrWGtrdVC6bJPNmJ2CbVcFq6P1eirV9X5d5fql75eeRg%3D%3D&"
+        let path =  "http://openapi.gbis.go.kr/ws/rest/busarrivalservice/station?serviceKey=cOXFXk2qE%2FhuIiYcsMQ4gv032heBUTwuP%2FDQwW0TskxrWGtrdVC6bJPNmJ2CbVcFq6P1eirV9X5d5fql75eeRg%3D%3D&"
         
         let quaryURL = path + parameter + "=" + String(value)
 
@@ -79,9 +81,12 @@ class LodingViewController: UIViewController, XMLParserDelegate {
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String: String]) {
         // print("CurrentElementl: [\(elementName)]")
+        element = elementName as NSString
         
         if (elementName as NSString ).isEqual(to: "busArrivalList")
         {
+            elements = NSMutableDictionary()
+            elements = [:]
             plateNo1 = NSMutableString()
             plateNo1 = ""
             plateNo2 = NSMutableString()
@@ -96,6 +101,14 @@ class LodingViewController: UIViewController, XMLParserDelegate {
             remainSeatCnt2 = ""
             routeIdArriv = NSMutableString()
             routeIdArriv = ""
+            routeIDArriv = NSMutableString()
+            routeIDArriv = ""
+            locationNo1 = NSMutableString()
+            locationNo1 = ""
+            locationNo2 = NSMutableString()
+            locationNo2 = ""
+            stationIdArrive = NSMutableString()
+            stationIdArrive = ""
         }
     }
     
@@ -119,10 +132,20 @@ class LodingViewController: UIViewController, XMLParserDelegate {
             else if element.isEqual(to: "remainSeatCnt2") {
                  remainSeatCnt2.append(string)
             }
-            else if element.isEqual(to: "routeIdArriv") {
+            else if element.isEqual(to: "routeId") {
                  routeIdArriv.append(string)
             }
-    }
+        else if element.isEqual(to: "locationNo1") {
+             locationNo1.append(string)
+        }
+        else if element.isEqual(to: "locationNo2") {
+             locationNo2.append(string)
+        }
+        else if element.isEqual(to: "stationId") {
+             stationIdArrive.append(string)
+        }
+           
+        }
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI namspaceURI: String?, qualifiedName qName: String?)
     {
@@ -130,6 +153,7 @@ class LodingViewController: UIViewController, XMLParserDelegate {
         if (elementName as NSString).isEqual(to: "busArrivalList") {
             if !plateNo1.isEqual(nil) {
                 elements.setObject(plateNo1, forKey: "plateNo1" as NSCopying)
+                print(plateNo1)
             }
             if !plateNo2.isEqual(nil) {
                 elements.setObject(plateNo2, forKey: "plateNo2" as NSCopying)
@@ -147,7 +171,16 @@ class LodingViewController: UIViewController, XMLParserDelegate {
                 elements.setObject(remainSeatCnt2, forKey: "remainSeatCnt2" as NSCopying)
             }
             if !routeIdArriv.isEqual(nil) {
-                elements.setObject(routeIdArriv, forKey: "routeIdArriv" as NSCopying)
+                elements.setObject(routeIdArriv, forKey: "routeId" as NSCopying)
+            }
+           if !locationNo1.isEqual(nil) {
+               elements.setObject(locationNo1, forKey: "locationNo1" as NSCopying)
+           }
+            if !locationNo2.isEqual(nil) {
+                elements.setObject(locationNo2, forKey: "locationNo2" as NSCopying)
+            }
+            if !stationIdArrive.isEqual(nil) {
+                elements.setObject(stationIdArrive, forKey: "stationId" as NSCopying)
             }
             
             posts.add(elements)
@@ -168,7 +201,18 @@ class LodingViewController: UIViewController, XMLParserDelegate {
             secondViewController.locationX = self.locationX
             secondViewController.locationY = self.locationY
             
+            secondViewController.postsArriv = self.posts
+            secondViewController.elements = self.elements
+            secondViewController.element = self.element
+            
             secondViewController.stationID = self.stationID
+            secondViewController.routeIdArriv = self.routeIdArriv
+            
+            secondViewController.locationNo1 = self.locationNo1
+            secondViewController.locationNo2 = self.locationNo2
+            
+            secondViewController.stationIdArrive = self.stationIdArrive
+            
         } else if currentCategory == 1 {
             secondViewController.routeID = self.routeID
         }

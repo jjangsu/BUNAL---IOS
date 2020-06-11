@@ -255,6 +255,8 @@
                                             <outlet property="predictTime1" destination="db7-lj-mYU" id="JxI-Xc-pUk"/>
                                             <outlet property="predictTime2" destination="RrE-yH-uFC" id="9hx-3p-Dwu"/>
                                             <outlet property="remainSeatCnt" destination="2Sn-iC-I1b" id="ACj-nn-Ofg"/>
+                                            <outlet property="remainSeatCnt1" destination="iFV-kj-Mh7" id="iwb-Hd-kDp"/>
+                                            <outlet property="remainSeatCnt2" destination="69i-MK-A9S" id="bD5-ni-gSd"/>
                                             <outlet property="titleLabel" destination="x3a-uB-LLh" id="lW5-S9-f3g"/>
                                             <segue destination="VSV-Vh-6Zf" kind="show" id="Fj0-Dn-uYz"/>
                                         </connections>
