@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Speech
 
 class SearchViewController: UIViewController, XMLParserDelegate, UITableViewDataSource, UITableViewDelegate {
     
@@ -17,6 +18,14 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var chooseCategoryControl: UISegmentedControl!
     
+    var timer = Timer()
+    
+    private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "ko-KR"))!
+    
+    private var speechRecognitionRequest: SFSpeechAudioBufferRecognitionRequest?
+    private var speechRecognitionTask: SFSpeechRecognitionTask?
+    
+    private let audioEngine = AVAudioEngine()
     
     var parser = XMLParser()
     var posts = NSMutableArray()
@@ -54,6 +63,9 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
     }
     
     @IBAction func micButtonAction(_ sender: Any) {
+            micButton.isEnabled = false
+            try! startSession()
+            timer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.stopMic), userInfo: nil, repeats: false)
     }
     
     @IBAction func searchButtonAction(_ sender: Any) {
@@ -71,8 +83,88 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        authorizeSR()
         currentCategory = 0
         beginXmlFileParsing(path: busStationPath, parameter: "keyword", value: "강남")
+    }
+    
+    @objc func stopMic() {
+        micButton.isEnabled = true
+        audioEngine.stop()
+        speechRecognitionRequest?.endAudio()
+        timer.invalidate()
+    }
+    
+    func startSession() throws {
+        if let recognitionTask = speechRecognitionTask {
+            recognitionTask.cancel()
+            self.speechRecognitionTask = nil
+        }
+
+        let audioSession = AVAudioSession.sharedInstance()
+        try audioSession.setCategory(AVAudioSession.Category.record)
+
+        speechRecognitionRequest = SFSpeechAudioBufferRecognitionRequest()
+
+        guard let recognitionRequest = speechRecognitionRequest else { fatalError("SFSpeechAudioBufferRecognitionRequest object creation failed") }
+
+        let inputNode = audioEngine.inputNode
+
+        recognitionRequest.shouldReportPartialResults = true
+
+        speechRecognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest) { result, error in
+
+            var finished = false
+
+            if let result = result {
+                self.searchTextField.text =
+                result.bestTranscription.formattedString
+                finished = result.isFinal
+            }
+
+            if error != nil || finished {
+                self.audioEngine.stop()
+                inputNode.removeTap(onBus: 0)
+
+                self.speechRecognitionRequest = nil
+                self.speechRecognitionTask = nil
+
+                self.micButton.isSelected = false
+            }
+        }
+
+        let recordingFormat = inputNode.outputFormat(forBus: 0)
+        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer: AVAudioPCMBuffer, when: AVAudioTime) in
+
+            self.speechRecognitionRequest?.append(buffer)
+        }
+
+        audioEngine.prepare()
+        try audioEngine.start()
+    }
+    
+    func authorizeSR() {
+        SFSpeechRecognizer.requestAuthorization { authStatus in
+            OperationQueue.main.addOperation {
+                switch authStatus {
+                case .authorized:
+                    self.micButton.isEnabled = true
+                    
+                case .denied:
+                    self.micButton.isEnabled = false
+                    self.micButton.setTitle("Speech recognition access denied by user", for: .disabled)
+
+                case .restricted:
+                        self.micButton.isEnabled = false
+                        self.micButton.setTitle("Speech recognition restricted on device", for: .disabled)
+                
+                case .notDetermined:
+                    self.micButton.isEnabled = false
+                    self.micButton.setTitle("Speech recognition not authorizer", for: .disabled)
+                }
+            }
+            
+        }
     }
     
     func beginXmlFileParsing(path: String, parameter: String, value: String)
