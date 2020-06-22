@@ -119,7 +119,7 @@ public struct LineChartView: View {
             
             ForEach(0..<self.data.points.count) { month in
                 Text("\(Int(self.data.points[month].1))")
-                    .offset(x: (self.frame.width / CGFloat(self.data.points.count)) / 2 - self.frame.width / 2 + CGFloat(month * Int(self.frame.width / CGFloat(self.data.points.count))), y: self.frame.height + 30)
+                    .offset(x: (self.frame.width / CGFloat(self.data.points.count)) / 2 - self.frame.width / 2 + CGFloat(month * Int(self.frame.width / CGFloat(self.data.points.count))), y: self.frame.height)
                     .font(.system(size: 12))
             }
         }

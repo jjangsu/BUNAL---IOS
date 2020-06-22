@@ -7,8 +7,15 @@
 //
 
 import UIKit
+import SwiftUI
 
 class WeatherViewController: UIViewController, XMLParserDelegate {
+    
+    @IBSegueAction func weatherChartAction(_ coder: NSCoder) -> UIViewController? {
+        return UIHostingController(coder: coder, rootView: LineChartView(data: [10,23,20,32,12,34,7,23,43], title: "일주일 기온", legend: ":)")
+        .environment(\.colorScheme, .light))
+    }
+    
     
     @IBOutlet weak var weatherIcon: UIImageView!
     @IBOutlet weak var backgroundImage: UIImageView!

@@ -16,8 +16,6 @@
 		A14016202487FA2900E50496 /* Resource in Resources */ = {isa = PBXBuildFile; fileRef = A140161F2487FA2900E50496 /* Resource */; };
 		A140162224880F4C00E50496 /* BusInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A140162124880F4C00E50496 /* BusInfoViewController.swift */; };
 		A140162424880F6500E50496 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A140162324880F6500E50496 /* SearchViewController.swift */; };
-		A16792D324A0FE5C0037EBC8 /* weatherInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16792D224A0FE5C0037EBC8 /* weatherInfo.swift */; };
-		A16792D524A101F10037EBC8 /* weatherChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16792D424A101F10037EBC8 /* weatherChart.swift */; };
 		A16792DF24A109AC0037EBC8 /* Legend.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16792D724A109AB0037EBC8 /* Legend.swift */; };
 		A16792E024A109AC0037EBC8 /* IndicatorPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16792D824A109AC0037EBC8 /* IndicatorPoint.swift */; };
 		A16792E124A109AC0037EBC8 /* Path+QuadCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16792D924A109AC0037EBC8 /* Path+QuadCurve.swift */; };
@@ -46,8 +44,6 @@
 		A140161F2487FA2900E50496 /* Resource */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resource; sourceTree = "<group>"; };
 		A140162124880F4C00E50496 /* BusInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusInfoViewController.swift; sourceTree = "<group>"; };
 		A140162324880F6500E50496 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		A16792D224A0FE5C0037EBC8 /* weatherInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = weatherInfo.swift; sourceTree = "<group>"; };
-		A16792D424A101F10037EBC8 /* weatherChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = weatherChart.swift; sourceTree = "<group>"; };
 		A16792D724A109AB0037EBC8 /* Legend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Legend.swift; sourceTree = "<group>"; };
 		A16792D824A109AC0037EBC8 /* IndicatorPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicatorPoint.swift; sourceTree = "<group>"; };
 		A16792D924A109AC0037EBC8 /* Path+QuadCurve.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Path+QuadCurve.swift"; sourceTree = "<group>"; };
@@ -94,8 +90,7 @@
 		A140160A2487E79600E50496 /* BuNal */ = {
 			isa = PBXGroup;
 			children = (
-				A16792D624A1099F0037EBC8 /* Test */,
-				A16792CF24A0FCF80037EBC8 /* SwiftUI */,
+				A16792D624A1099F0037EBC8 /* LineChart */,
 				A140161F2487FA2900E50496 /* Resource */,
 				A140160B2487E79600E50496 /* AppDelegate.swift */,
 				A140160D2487E79600E50496 /* SceneDelegate.swift */,
@@ -115,16 +110,7 @@
 			path = BuNal;
 			sourceTree = "<group>";
 		};
-		A16792CF24A0FCF80037EBC8 /* SwiftUI */ = {
-			isa = PBXGroup;
-			children = (
-				A16792D224A0FE5C0037EBC8 /* weatherInfo.swift */,
-				A16792D424A101F10037EBC8 /* weatherChart.swift */,
-			);
-			path = SwiftUI;
-			sourceTree = "<group>";
-		};
-		A16792D624A1099F0037EBC8 /* Test */ = {
+		A16792D624A1099F0037EBC8 /* LineChart */ = {
 			isa = PBXGroup;
 			children = (
 				A16792E724A109E30037EBC8 /* Helpers.swift */,
@@ -137,7 +123,7 @@
 				A16792DE24A109AC0037EBC8 /* MultiLineChartView.swift */,
 				A16792D924A109AC0037EBC8 /* Path+QuadCurve.swift */,
 			);
-			path = Test;
+			path = LineChart;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,13 +200,11 @@
 			files = (
 				A16792E124A109AC0037EBC8 /* Path+QuadCurve.swift in Sources */,
 				A16792E824A109E30037EBC8 /* Helpers.swift in Sources */,
-				A16792D324A0FE5C0037EBC8 /* weatherInfo.swift in Sources */,
 				A16792E324A109AC0037EBC8 /* Line.swift in Sources */,
 				A1EDA742249262A3009DEE48 /* BusInfoTableViewCell.swift in Sources */,
 				A140162424880F6500E50496 /* SearchViewController.swift in Sources */,
 				A16792DF24A109AC0037EBC8 /* Legend.swift in Sources */,
 				A16792E424A109AC0037EBC8 /* MagnifierRect.swift in Sources */,
-				A16792D524A101F10037EBC8 /* weatherChart.swift in Sources */,
 				A178B8392490276D0069C10E /* MapViewController.swift in Sources */,
 				A16792E024A109AC0037EBC8 /* IndicatorPoint.swift in Sources */,
 				A178B83B249129C80069C10E /* weatherViewController.swift in Sources */,
