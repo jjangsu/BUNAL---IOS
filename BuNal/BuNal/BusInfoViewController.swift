@@ -12,6 +12,7 @@ import UIKit
 
 class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDataSource, UITableViewDelegate {
 
+    
     var parser = XMLParser()
     var posts = NSMutableArray()
     var elements = NSMutableDictionary()
@@ -22,20 +23,36 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
     var elementsArriv = NSMutableDictionary()
     var elementArriv = NSString()
     
+    var postsBusLocation = NSMutableArray()
+    
+    // 이번 씬에서 읽는 정보
+    // category == 0
     var routeName = NSMutableString()
     var routeId = NSMutableString()
     var routeTypeName = NSMutableString()
     
-    var stationID = NSMutableString()
-    var locationX = NSMutableString()
-    var locationY = NSMutableString()
+    // category == 1
+    var stationSeq = NSMutableString()
+    var stationId = NSMutableString()
+    
     
     var currentCategory : Int = 0
     
-    var routeID = NSMutableString()
     var stationName = NSMutableString()
-    var stationSeq = NSMutableString()
     
+    var locationX = NSMutableString()
+    var locationY = NSMutableString()
+    
+    // 전 씬에서 넘어오는 정보
+    // category == 1
+    var routeID = NSMutableString()
+    var stationSeqPre = NSMutableString()
+    var plateNo = NSMutableString()
+    var plateType = NSMutableString()
+    var remainSeatCnt = NSMutableString()
+    //  var stationId = NSMutableString() // category1 용
+    // category == 2
+    var stationIDPre = NSMutableString()
     var plateNo1 = NSMutableString()
     var plateNo2 = NSMutableString()
     var predictTime1 = NSMutableString()
@@ -48,7 +65,7 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
     var stationIdArrive = NSMutableString()
     
     @IBOutlet weak var busListTableview: UITableView!
-
+    
     
     @IBAction func backwardViewController(segue: UIStoryboardSegue) {
         
@@ -57,12 +74,13 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         busListTableview.estimatedRowHeight = 60
         busListTableview.rowHeight = 60
-
+        
         // print(stationID)
         if currentCategory == 0 {
-            beginXmlFileParsing(category: currentCategory, parameter: "stationId", value: stationID)
+            beginXmlFileParsing(category: currentCategory, parameter: "stationId", value: stationIDPre)
         } else if currentCategory == 1 {
             beginXmlFileParsing(category: currentCategory, parameter: "routeId", value: routeID)
             //beginXmlFileParsing(category: 4, parameter: "stationId", value: stationID)
@@ -74,26 +92,26 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
     {
         var path = ""
         if category == 0 {
-        path = "http://openapi.gbis.go.kr/ws/rest/busstationservice/route?serviceKey=cOXFXk2qE%2FhuIiYcsMQ4gv032heBUTwuP%2FDQwW0TskxrWGtrdVC6bJPNmJ2CbVcFq6P1eirV9X5d5fql75eeRg%3D%3D&"
+            path = "http://openapi.gbis.go.kr/ws/rest/busstationservice/route?serviceKey=cOXFXk2qE%2FhuIiYcsMQ4gv032heBUTwuP%2FDQwW0TskxrWGtrdVC6bJPNmJ2CbVcFq6P1eirV9X5d5fql75eeRg%3D%3D&"
         } else if category == 1 {
             path = "http://openapi.gbis.go.kr/ws/rest/busrouteservice/station?serviceKey=cOXFXk2qE%2FhuIiYcsMQ4gv032heBUTwuP%2FDQwW0TskxrWGtrdVC6bJPNmJ2CbVcFq6P1eirV9X5d5fql75eeRg%3D%3D&"
         }
         
         let quaryURL = path + parameter + "=" + String(value)
-
+        
         if category == 0 || category == 1 {
             posts = []
         } else {
             postsArriv = []
         }
         parser = XMLParser(contentsOf:(URL(string: quaryURL ))!)!
-
+        
         parser.delegate = self
-
+        
         let success:Bool = parser.parse()
         if success {
             print("success")
-
+            
         } else {
             print("parse failure!")
         }
@@ -104,7 +122,7 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String: String]) {
         // print("CurrentElementl: [\(elementName)]")
-         element = elementName as NSString
+        element = elementName as NSString
         if ( elementName as NSString ).isEqual(to: "busRouteList")
         {
             elements = NSMutableDictionary()
@@ -128,8 +146,10 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
             locationX = ""
             locationY = NSMutableString()
             locationY = ""
+            stationId = NSMutableString()
+            stationId = ""
         }
-       
+        
     }
     
     func parser(_ parser: XMLParser, foundCharacters string: String)
@@ -146,17 +166,20 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
             }
         }
         else if currentCategory == 1 {
-           if element.isEqual(to: "stationName"){
-               stationName.append(string)
-           }
-           else if element.isEqual(to: "stationSeq") {
-               stationSeq.append(string)
-           }
-           else if element.isEqual(to: "x") {
+            if element.isEqual(to: "stationName"){
+                stationName.append(string)
+            }
+            else if element.isEqual(to: "stationSeq") {
+                stationSeq.append(string)
+            }
+            else if element.isEqual(to: "x") {
                 locationX.append(string)
-           }
-           else if element.isEqual(to: "y") {
+            }
+            else if element.isEqual(to: "y") {
                 locationY.append(string)
+            }
+            else if element.isEqual(to: "stationId") {
+                stationId.append(string)
             }
         }
         
@@ -190,10 +213,13 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
             if !locationY.isEqual(nil) {
                 elements.setObject(locationY, forKey: "y" as NSCopying)
             }
+            if !stationId.isEqual(nil) {
+                elements.setObject(stationId, forKey: "stationId" as NSCopying)
+            }
             
             posts.add(elements)
         }
-       
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -202,7 +228,7 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
         if currentCategory == 0 {
             cell.titleLabel.text = (posts.object(at: indexPath.row) as AnyObject).value(forKey: "routeName") as! NSString as String
             
-            print(postsArriv.count)
+            // print(postsArriv.count)
             for i in 0..<postsArriv.count {
                 if ( (posts.object(at: indexPath.row) as AnyObject).value(forKey: "routeId") as! NSString == (postsArriv[i] as AnyObject).value(forKey: "routeId") as! NSString as! NSMutableString ) {
                     let t = (postsArriv[i] as AnyObject).value(forKey: "locationNo1") as! NSString as! NSMutableString as String
@@ -244,7 +270,7 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
             cell.remainSeatCnt2.isHidden = false
         }
         else if currentCategory == 1 {
-            cell.busImage.isHidden = false
+            
             cell.remainSeatCnt.isHidden = false
             cell.plateNo.isHidden = false
             
@@ -256,8 +282,33 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
             cell.remainSeatCnt1.isHidden = true
             cell.remainSeatCnt2.isHidden = true
             
+            
+            
+            for i in 0..<postsBusLocation.count {
+                if ( (posts.object(at: indexPath.row) as AnyObject).value(forKey: "stationId") as! NSString == (postsBusLocation[i] as AnyObject).value(forKey: "stationId") as! NSString as! NSMutableString )
+                {
+                    cell.busImage.isHidden = false
+                    cell.busImage.image = UIImage(named: "Resource/monster.png")
+                    
+                    let tmpPlateNo = (postsBusLocation[i] as AnyObject).value(forKey: "plateNo") as! NSString as! NSMutableString as String
+                    cell.plateNo.text = String("\(tmpPlateNo)")
+                    
+                    let tmpRemainSeat = (postsBusLocation[i] as AnyObject).value(forKey: "remainSeatCnt") as! NSString as! NSMutableString as String
+                    cell.remainSeatCnt.text = String("잔여석: \(tmpRemainSeat)석")
+
+                }
+                else
+                {
+                    cell.busImage.isHidden = true
+                    cell.plateNo.text = String("")
+                    cell.remainSeatCnt.text = String("")
+                    // cell.busImage.image = UIImage(named: "Resource/grayBus.png")
+                }
+            }
+            // postsBusLocation
+            
             cell.titleLabel.text = (posts.object(at: indexPath.row) as AnyObject).value(forKey: "stationName") as! NSString as String
-            cell.busImage.image = UIImage(named: "Resource/grayBus.png")
+            
         }
         
         return cell
@@ -295,6 +346,6 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
             
         }
     }
-
+    
 }
 
