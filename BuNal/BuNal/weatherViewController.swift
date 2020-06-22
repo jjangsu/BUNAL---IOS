@@ -26,6 +26,8 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
     
     var category = NSMutableString()
     var fcstValue = NSMutableString()
+    var fcstDate = NSMutableString()
+    var fcstTime = NSMutableString()
     
     var locationX = NSMutableString()
     var locationY = NSMutableString()
@@ -33,6 +35,8 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
     let converter = LambertProjection()
     
     var currentDate : String = ""
+    var currentTime : String = ""
+    
     var skyCondition : Int = -1
     var vecValue : Int = -1
     var wsdValue : Double = -1.0
@@ -42,12 +46,24 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
         backgroundImage.image = UIImage(named: "Resource/back.png")
         weatherIcon.image = UIImage(named: "Resource/sun.png")
         
+        
+        
+        var tempTime = ""
+        
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
+        formatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale
         currentDate = formatter.string(from: Date())
         
+        formatter.dateFormat = "HHmm"
+        formatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale
+        tempTime = formatter.string(from: Date())
+        
+        currentTime = getBaseTime(time: Int(tempTime)!)
+        
         let (x, y) = converter.convertGrid(lon: locationX.doubleValue, lat: locationY.doubleValue)
-        beginXmlFileParsing(numOfRows: String(104), baseData: currentDate, baseTime: String("0200"), nx: String(x), ny: String(y))
+        print("x: \(x), y: \(y)")
+        beginXmlFileParsing(numOfRows: String(104), baseData: currentDate, baseTime: currentTime, nx: String(x), ny: String(y))
     }
     // 13가지
     // 00 03 06 09 12 15 18 21
@@ -67,47 +83,121 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
         let success:Bool = parser.parse()
         if success {
             print("weather parsing success")
-
+            
         } else {
             print("weather parse failure!")
+        }
+        
+        let dataDate = (posts[0] as AnyObject).value(forKey: "fcstDate") as! NSString as! NSMutableString as String
+        
+        for i in 0..<posts.count
+        {
+            let tmpDate = (posts[i] as AnyObject).value(forKey: "fcstDate") as! NSString as! NSMutableString as String
+            
+            if (dataDate == tmpDate)
+            {
+                if ((posts[i] as AnyObject).value(forKey: "category") as! NSString as! NSMutableString == "TMN") {  // 최저 기온
+                    TMNLabel.text = "\((posts[i] as AnyObject).value(forKey: "fcstValue") as! NSString as! NSMutableString as String)°C /"
+                }
+                else if ((posts[i] as AnyObject).value(forKey: "category") as! NSString as! NSMutableString == "TMX") {  // 최고 기온
+                    TMXLabel.text = "\((posts[i] as AnyObject).value(forKey: "fcstValue") as! NSString as! NSMutableString as String)°C"
+                }
+            }
         }
         
         for i in 0..<posts.count
         {
             if ((posts[i] as AnyObject).value(forKey: "category") as! NSString as! NSMutableString == "POP") {  // 강수량
                 POPLabel.text = "강수확률: \((posts[i] as AnyObject).value(forKey: "fcstValue") as! NSString as! NSMutableString as String)%"
+                break
             }
-            else if ((posts[i] as AnyObject).value(forKey: "category") as! NSString as! NSMutableString == "TMN") {  // 최저 기온
-                TMNLabel.text = "\((posts[i] as AnyObject).value(forKey: "fcstValue") as! NSString as! NSMutableString as String)°C /"
-            }
-            else if ((posts[i] as AnyObject).value(forKey: "category") as! NSString as! NSMutableString == "TMX") {  // 최고 기온
-                TMXLabel.text = "\((posts[i] as AnyObject).value(forKey: "fcstValue") as! NSString as! NSMutableString as String)°C"
-            }
-            else if ((posts[i] as AnyObject).value(forKey: "category") as! NSString as! NSMutableString == "SKY") {  // 하늘
+        }
+        
+        for i in 0..<posts.count
+        {
+            if ((posts[i] as AnyObject).value(forKey: "category") as! NSString as! NSMutableString == "SKY") {  // 하늘
                 if skyCondition == -1 {
                     skyCondition = Int((posts[i] as AnyObject).value(forKey: "fcstValue") as! NSString as! NSMutableString as String)!
+                    break
                 }
             }
-            else if ((posts[i] as AnyObject).value(forKey: "category") as! NSString as! NSMutableString == "REH") {  // 최고 기온
+        }
+        
+        for i in 0..<posts.count
+        {
+            if ((posts[i] as AnyObject).value(forKey: "category") as! NSString as! NSMutableString == "REH") {  // 습도
                 REHLabel.text = "습도: \((posts[i] as AnyObject).value(forKey: "fcstValue") as! NSString as! NSMutableString as String)%"
+                break
             }
-            else if ((posts[i] as AnyObject).value(forKey: "category") as! NSString as! NSMutableString == "VEC") {  // 풍향
+        }
+          
+        for i in 0..<posts.count
+        {
+            if ((posts[i] as AnyObject).value(forKey: "category") as! NSString as! NSMutableString == "VEC") {  // 풍향
                 if vecValue == -1
                 {
                     vecValue = Int(((posts[i] as AnyObject).value(forKey: "fcstValue") as! NSString as! NSMutableString).integerValue)
+                    break
                 }
-            }
-            else if ((posts[i] as AnyObject).value(forKey: "category") as! NSString as! NSMutableString == "WSD") {  // 풍속
-                if wsdValue == -1.0 {
-                    wsdValue = Double(((posts[i] as AnyObject).value(forKey: "fcstValue") as! NSString as! NSMutableString).doubleValue)
-                }
-                
             }
         }
+        
+        for i in 0..<posts.count
+        {
+            if ((posts[i] as AnyObject).value(forKey: "category") as! NSString as! NSMutableString == "WSD") {  // 풍속
+                if wsdValue == -1.0 {
+                    wsdValue = Double(((posts[i] as AnyObject).value(forKey: "fcstValue") as! NSString as! NSMutableString).doubleValue)
+                    break
+                }
+            }
+        }
+        
         setSkyImage(condition: skyCondition)
         setVec(vec: vecValue)
         setWSD(wsd: wsdValue)
         // listTableView!.reloadData()
+    }
+    
+    func getBaseTime(time: Int) -> String
+    {
+        if 0 < time && time < 0210
+        {
+            return "0000"   // 전날로 수정할 수 있도록 해야 함
+        }
+        else if 0210 <= time && time < 0510
+        {
+            return "0200"
+        }
+        else if 0510 <= time && time < 0810
+        {
+            return "0500"
+        }
+        else if 0810 <= time && time < 1110
+        {
+            return "0800"
+        }
+        else if 1110 <= time && time < 1410
+        {
+            return "1100"
+        }
+        else if 1410 <= time && time < 1710
+        {
+            return "1400"
+        }
+        else if 1710 <= time && time < 2010
+        {
+            return "1700"
+        }
+        else if 2010 <= time && time < 2310
+        {
+            return "2000"
+        }
+        else if 2310 <= time
+        {
+            return "2300"
+        }
+        
+        return ""
     }
     
     func setSkyImage(condition: Int)
@@ -179,6 +269,10 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
             category = ""
             fcstValue = NSMutableString()
             fcstValue = ""
+            fcstDate = NSMutableString()
+            fcstDate = ""
+            fcstTime = NSMutableString()
+            fcstTime = ""
         }
         
     }
@@ -193,6 +287,12 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
         else if element.isEqual(to: "fcstValue") {
             fcstValue.append(string)
         }
+        else if element.isEqual(to: "fcstDate") {
+            fcstDate.append(string)
+        }
+        else if element.isEqual(to: "fcstTime") {
+            fcstTime.append(string)
+        }
     }
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI namspaceURI: String?, qualifiedName qName: String?)
@@ -204,10 +304,16 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
             if !fcstValue.isEqual(nil) {
                 elements.setObject(fcstValue, forKey: "fcstValue" as NSCopying)
             }
-        
+            if !fcstDate.isEqual(nil) {
+                elements.setObject(fcstDate, forKey: "fcstDate" as NSCopying)
+            }
+            if !fcstTime.isEqual(nil) {
+                elements.setObject(fcstTime, forKey: "fcstTime" as NSCopying)
+            }
+            
             
             posts.add(elements)
         }
     }
-
+    
 }
