@@ -81,8 +81,10 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
         // print(stationID)
         if currentCategory == 0 {
             beginXmlFileParsing(category: currentCategory, parameter: "stationId", value: stationIDPre)
+            self.navigationItem.rightBarButtonItem?.isEnabled = true
         } else if currentCategory == 1 {
             beginXmlFileParsing(category: currentCategory, parameter: "routeId", value: routeID)
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
             //beginXmlFileParsing(category: 4, parameter: "stationId", value: stationID)
         }
         // Do any additional setup after loading the view.
