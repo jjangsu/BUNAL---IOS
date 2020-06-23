@@ -319,7 +319,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="location" catalog="system" style="plain" id="x3x-lw-Qx3">
                             <connections>
-                                <segue destination="5If-qg-VKS" kind="show" id="uW2-y1-tLs"/>
+                                <action selector="showDirection:" destination="VSV-Vh-6Zf" id="Okp-hN-6Jh"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -331,37 +331,6 @@
                 <exit id="yOO-vJ-ifp" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="7284" y="-574"/>
-        </scene>
-        <!--Direction-->
-        <scene sceneID="lNY-mr-yza">
-            <objects>
-                <viewController title="Direction" id="5If-qg-VKS" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="opL-bT-S0d">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ynh-iA-dcj">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="길찾기 결과" id="fZk-7v-37c">
-                                        <barButtonItem key="leftBarButtonItem" image="arrow.counterclockwise" catalog="system" style="plain" id="5RJ-6r-f1p"/>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="3tX-ZO-hux">
-                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </mapView>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="QkR-tF-oEO"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="pnj-2K-eyX"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="saC-VQ-ekQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="8060" y="-574"/>
         </scene>
         <!--Weather-->
         <scene sceneID="N71-aC-OnI">
