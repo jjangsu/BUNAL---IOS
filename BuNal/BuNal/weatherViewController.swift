@@ -71,6 +71,14 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
         let (x, y) = converter.convertGrid(lon: locationX.doubleValue, lat: locationY.doubleValue)
         print("x: \(x), y: \(y)")
         beginXmlFileParsing(numOfRows: String(104), baseData: currentDate, baseTime: currentTime, nx: String(x), ny: String(y))
+        
+
+        let startX: CGFloat = CGFloat(Float.random(in: -400..<400))
+        let startY: CGFloat = 0
+        
+        let stars = StardustView(frame: CGRect(x: startX, y: startY, width: 100, height: 100))
+        self.backgroundImage.addSubview(stars)
+        self.backgroundImage.sendSubviewToBack(_: stars)
     }
     // 13가지
     // 00 03 06 09 12 15 18 21
