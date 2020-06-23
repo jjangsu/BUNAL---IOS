@@ -53,7 +53,6 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
         backgroundImage.image = UIImage(named: "Resource/back.png")
         weatherIcon.image = UIImage(named: "Resource/sun.png")
         
-        
         var tempTime = ""
         
         let formatter = DateFormatter()
@@ -65,19 +64,12 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
         formatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale
         tempTime = formatter.string(from: Date())
         
-        getBaseTime(time: Int(tempTime)!)
+        currentTime = getBaseTime(time: Int(tempTime)!)
         
         let (x, y) = converter.convertGrid(lon: locationX.doubleValue, lat: locationY.doubleValue)
         print("x: \(x), y: \(y)")
         beginXmlFileParsing(numOfRows: String(104), baseData: currentDate, baseTime: currentTime, nx: String(x), ny: String(y))
         
-
-        let startX: CGFloat = CGFloat(Float.random(in: -400..<400))
-        let startY: CGFloat = 0
-        
-        let stars = StardustView(frame: CGRect(x: startX, y: startY, width: 100, height: 100))
-        self.backgroundImage.addSubview(stars)
-        self.backgroundImage.sendSubviewToBack(_: stars)
     }
     // 13가지
     // 00 03 06 09 12 15 18 21
@@ -172,46 +164,46 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
         // listTableView!.reloadData()
     }
     
-    func getBaseTime(time: Int)
+    func getBaseTime(time: Int) -> String
     {
         if 0 < time && time < 0210
         {
-            self.currentTime =  "2300"
-            self.currentDate = String(Int(self.currentDate)! - 1)
+            return "0000"   // 전날로 수정할 수 있도록 해야 함
         }
         else if 0210 <= time && time < 0510
         {
-            self.currentTime = "0200"
+            return "0200"
         }
         else if 0510 <= time && time < 0810
         {
-            self.currentTime =  "0500"
+            return "0500"
         }
         else if 0810 <= time && time < 1110
         {
-            self.currentTime =  "0800"
+            return "0800"
         }
         else if 1110 <= time && time < 1410
         {
-            self.currentTime =  "1100"
+            return "1100"
         }
         else if 1410 <= time && time < 1710
         {
-            self.currentTime = "1400"
+            return "1400"
         }
         else if 1710 <= time && time < 2010
         {
-            self.currentTime = "1700"
+            return "1700"
         }
         else if 2010 <= time && time < 2310
         {
-            self.currentTime = "2000"
+            return "2000"
         }
         else if 2310 <= time
         {
-            self.currentTime = "2300"
+            return "2300"
         }
         
+        return ""
     }
     
     func setSkyImage(condition: Int)
@@ -219,12 +211,33 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
         switch condition {
         case 1: // 맑음
             weatherIcon.image = UIImage(named: "Resource/sun.png")
+
+            let startX: CGFloat = CGFloat(Float.random(in: -400..<400))
+            let startY: CGFloat = 0
+            
+            let stars = PSunView(frame: CGRect(x: startX, y: startY, width: 800, height: 1000))
+            self.backgroundImage.addSubview(stars)
+            self.backgroundImage.sendSubviewToBack(_: stars)
             break
         case 3: // 구름 많음
             weatherIcon.image = UIImage(named: "Resource/cloud_sun.png")
+
+            let startX: CGFloat = CGFloat(Float.random(in: -400..<400))
+            let startY: CGFloat = 0
+            
+            let stars = PCloudView(frame: CGRect(x: startX, y: startY, width: 800, height: 1000))
+            self.backgroundImage.addSubview(stars)
+            self.backgroundImage.sendSubviewToBack(_: stars)
             break
         case 4: // 흐림
             weatherIcon.image = UIImage(named: "Resource/cloud.png")
+
+            let startX: CGFloat = CGFloat(Float.random(in: -400..<400))
+            let startY: CGFloat = 0
+            
+            let stars = PCloudView(frame: CGRect(x: startX, y: startY, width: 800, height: 1000))
+            self.backgroundImage.addSubview(stars)
+            self.backgroundImage.sendSubviewToBack(_: stars)
             break
         default:
             break
@@ -307,7 +320,6 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
         else if element.isEqual(to: "fcstTime") {
             fcstTime.append(string)
         }
-        print("\(element) - \(string)")
     }
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI namspaceURI: String?, qualifiedName qName: String?)

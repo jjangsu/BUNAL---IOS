@@ -7,7 +7,7 @@
 //
 import UIKit
 //ExplodeView와 매우 비슷하다.
-class StardustView: UIView {
+class PSunView: UIView {
     private var emitter: CAEmitterLayer!
     
     override class var layerClass: AnyClass {
@@ -34,26 +34,27 @@ class StardustView: UIView {
             return
         }
         
-        let texture: UIImage? = UIImage(named: "Resource/p_snow")
+        let texture: UIImage? = UIImage(named: "Resource/p_sun")
         assert(texture != nil, "particle image not found")
         
         let emitterCell = CAEmitterCell()
         
         emitterCell.name = "cell"
         emitterCell.contents = texture?.cgImage
-        emitterCell.birthRate = 100
+        emitterCell.birthRate = 50
         emitterCell.lifetime = 5.0          //ExplodeView보다 lifetime이 길다.
         emitterCell.yAcceleration = 10     //파티클이 아래로 떨어진다. 중력효과
         //emitterCell.velocity = 40
         //emitterCell.velocityRange = 10
-        emitterCell.scaleRange = 0.5
-        emitterCell.scaleSpeed = -0.2
+        emitterCell.scale = 0.5
+        emitterCell.scaleRange = 0.1
+        emitterCell.scaleSpeed = -0.05
         emitterCell.emissionRange = 0.0
         emitter.emitterCells = [emitterCell]
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
-            self.removeFromSuperview()
-        })
+//
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
+//            self.removeFromSuperview()
+//        })
     }
 }
 
