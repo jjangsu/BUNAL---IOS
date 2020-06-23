@@ -285,6 +285,13 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
             
             
             
+            cell.defaultImage.isHidden = false
+            cell.busImage.isHidden = true
+            cell.defaultImage.image = UIImage(named: "Resource/road.png")
+            cell.plateNo.text = String("")
+            cell.remainSeatCnt.text = String("")
+            
+            
             for i in 0..<postsBusLocation.count {
                 if ( (posts.object(at: indexPath.row) as AnyObject).value(forKey: "stationId") as! NSString == (postsBusLocation[i] as AnyObject).value(forKey: "stationId") as! NSString as! NSMutableString )
                 {
@@ -314,16 +321,7 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
                     cell.remainSeatCnt.text = String("잔여석: \(tmpRemainSeat)석")
 
                 }
-                else
-                {
-                    // cell.busImage.isHidden = true
-                    cell.defaultImage.isHidden = false
-                    cell.busImage.isHidden = true
-                    cell.defaultImage.image = UIImage(named: "Resource/road.png")
-                    cell.plateNo.text = String("")
-                    cell.remainSeatCnt.text = String("")
-                    // cell.busImage.image = UIImage(named: "Resource/grayBus.png")
-                }
+
             }
             // postsBusLocation
             
