@@ -363,81 +363,94 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UpP-Uf-Ajm">
+                            <navigationBar contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UpP-Uf-Ajm">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
                                     <navigationItem title="Weather" id="1y8-Wn-wpY">
                                         <barButtonItem key="leftBarButtonItem" image="arrow.counterclockwise" catalog="system" style="plain" id="mpk-3w-lwJ"/>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rhs-XQ-9NZ">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rhs-XQ-9NZ">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4fj-Pw-abn">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4fj-Pw-abn">
                                 <rect key="frame" x="111" y="64" width="152" height="143"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="143" id="3Zw-dw-yfe"/>
+                                </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="24°C" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uyd-BR-tsg">
-                                <rect key="frame" x="139" y="214" width="97" height="70"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="24°C" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uyd-BR-tsg">
+                                <rect key="frame" x="139" y="194" width="97" height="70"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="35"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="강수확률: 00%-" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YaV-Tn-fsl">
-                                <rect key="frame" x="16" y="302" width="178" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="강수확률: 00%-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YaV-Tn-fsl">
+                                <rect key="frame" x="16" y="289" width="178" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text=" 21°.0C" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VZP-Bd-zbI">
-                                <rect key="frame" x="196" y="273" width="84" height="21"/>
+                                <rect key="frame" x="196" y="253" width="84" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="21.0°C /" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qnr-ob-ash">
-                                <rect key="frame" x="131" y="273" width="85" height="21"/>
+                                <rect key="frame" x="131" y="253" width="85" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="습도: 00%-" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yXx-eR-MDY">
-                                <rect key="frame" x="16" y="335" width="126" height="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="습도: 00%-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yXx-eR-MDY">
+                                <rect key="frame" x="16" y="322" width="126" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="풍향: 3m/s-" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uuR-6U-m8X">
-                                <rect key="frame" x="16" y="373" width="292" height="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="풍향: 3m/s-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uuR-6U-m8X">
+                                <rect key="frame" x="16" y="360" width="292" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="풍속: 1-" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kn1-An-j4y">
-                                <rect key="frame" x="16" y="411" width="359" height="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="풍속: 1-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kn1-An-j4y">
+                                <rect key="frame" x="16" y="398" width="359" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Og-h1-Pk1">
-                                <rect key="frame" x="78" y="461" width="219" height="155"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Og-h1-Pk1">
+                                <rect key="frame" x="87" y="460" width="203" height="152"/>
                                 <connections>
                                     <segue destination="eIx-Xc-nhx" kind="embed" destinationCreationSelector="weatherChartAction:" id="O68-r9-DRI"/>
                                 </connections>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="7Og-h1-Pk1" firstAttribute="centerX" secondItem="UpP-Uf-Ajm" secondAttribute="centerX" id="48P-Pp-lSR"/>
+                            <constraint firstItem="4fj-Pw-abn" firstAttribute="leading" secondItem="e2R-M2-clZ" secondAttribute="leading" constant="111" id="7pJ-GM-ENs"/>
+                            <constraint firstItem="4fj-Pw-abn" firstAttribute="centerX" secondItem="Uyd-BR-tsg" secondAttribute="centerX" id="Sms-hI-vnB"/>
+                            <constraint firstItem="7Og-h1-Pk1" firstAttribute="centerX" secondItem="rhs-XQ-9NZ" secondAttribute="centerX" id="WbV-Iz-5CF"/>
+                            <constraint firstItem="4fj-Pw-abn" firstAttribute="top" secondItem="UpP-Uf-Ajm" secondAttribute="bottom" constant="20" id="aWg-q6-jPH"/>
+                            <constraint firstItem="7Og-h1-Pk1" firstAttribute="top" secondItem="jUS-zh-vzR" secondAttribute="top" constant="461" id="cz0-f1-eYS"/>
+                            <constraint firstItem="e2R-M2-clZ" firstAttribute="bottom" secondItem="7Og-h1-Pk1" secondAttribute="bottom" constant="2" id="djM-GC-bik"/>
+                            <constraint firstItem="4fj-Pw-abn" firstAttribute="top" secondItem="jUS-zh-vzR" secondAttribute="top" constant="64" id="dk8-gs-xbm"/>
+                            <constraint firstItem="4fj-Pw-abn" firstAttribute="centerX" secondItem="rhs-XQ-9NZ" secondAttribute="centerX" id="eIo-ND-OyM"/>
+                            <constraint firstItem="4fj-Pw-abn" firstAttribute="centerX" secondItem="jUS-zh-vzR" secondAttribute="centerX" id="eQc-V9-1ls"/>
+                            <constraint firstItem="4fj-Pw-abn" firstAttribute="centerX" secondItem="UpP-Uf-Ajm" secondAttribute="centerX" id="fyh-aS-HRe"/>
+                            <constraint firstItem="Uyd-BR-tsg" firstAttribute="top" secondItem="4fj-Pw-abn" secondAttribute="bottom" constant="7" id="oYP-cO-A3c"/>
+                            <constraint firstItem="7Og-h1-Pk1" firstAttribute="leading" secondItem="e2R-M2-clZ" secondAttribute="leading" constant="78" id="qJ6-l3-rEQ"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="e2R-M2-clZ"/>
                     </view>
                     <navigationItem key="navigationItem" title="today's weather :)" id="f1X-h1-gHP"/>

@@ -12,7 +12,27 @@ import SwiftUI
 class WeatherViewController: UIViewController, XMLParserDelegate {
     
     @IBSegueAction func weatherChartAction(_ coder: NSCoder) -> UIViewController? {
-        return UIHostingController(coder: coder, rootView: LineChartView(data: [10,23,20,32,12,34,7,23,43], title: "일주일 기온", legend: ":)")
+        
+        
+        var tempTime = ""
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        formatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale
+        currentDate = formatter.string(from: Date())
+        
+        formatter.dateFormat = "HHmm"
+        formatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale
+        tempTime = formatter.string(from: Date())
+        
+        getBaseTime(time: Int(tempTime)!)
+        
+        let (x, y) = converter.convertGrid(lon: locationX.doubleValue, lat: locationY.doubleValue)
+        print("x: \(x), y: \(y)")
+        beginXmlFileParsing(numOfRows: String(104), baseData: currentDate, baseTime: currentTime, nx: String(x), ny: String(y))
+        
+        self.makeT3M()
+        return UIHostingController(coder: coder, rootView: LineChartView(data: self.t3m, title: "24시간 기온", legend: ":)")
         .environment(\.colorScheme, .light))
     }
     
@@ -48,28 +68,33 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
     var vecValue : Int = -1
     var wsdValue : Double = -1.0
     
+    var t3m : [Double] = [24.0, 24.0, 23.0, 22.0, 23.0, 22.0, 22.0, 22.0, 22.0, 24.0]
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         backgroundImage.image = UIImage(named: "Resource/back.png")
-        weatherIcon.image = UIImage(named: "Resource/sun.png")
+//        weatherIcon.image = UIImage(named: "Resource/sun.png")
         
-        var tempTime = ""
+//        var tempTime = ""
+//
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "yyyyMMdd"
+//        formatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale
+//        currentDate = formatter.string(from: Date())
+//
+//        formatter.dateFormat = "HHmm"
+//        formatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale
+//        tempTime = formatter.string(from: Date())
+//
+//        getBaseTime(time: Int(tempTime)!)
+//
+//        let (x, y) = converter.convertGrid(lon: locationX.doubleValue, lat: locationY.doubleValue)
+//        print("x: \(x), y: \(y)")
+//        beginXmlFileParsing(numOfRows: String(104), baseData: currentDate, baseTime: currentTime, nx: String(x), ny: String(y))
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyyMMdd"
-        formatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale
-        currentDate = formatter.string(from: Date())
         
-        formatter.dateFormat = "HHmm"
-        formatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale
-        tempTime = formatter.string(from: Date())
-        
-        getBaseTime(time: Int(tempTime)!)
-        
-        let (x, y) = converter.convertGrid(lon: locationX.doubleValue, lat: locationY.doubleValue)
-        print("x: \(x), y: \(y)")
-        beginXmlFileParsing(numOfRows: String(104), baseData: currentDate, baseTime: currentTime, nx: String(x), ny: String(y))
-        
+        makeT3M()
     }
     // 13가지
     // 00 03 06 09 12 15 18 21
@@ -162,6 +187,19 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
         setVec(vec: vecValue)
         setWSD(wsd: wsdValue)
         // listTableView!.reloadData()
+    }
+    
+    func makeT3M()
+    {
+        self.t3m.removeAll()
+        for i in 0..<posts.count
+        {
+            if ((posts[i] as AnyObject).value(forKey: "category") as! NSString as! NSMutableString == "T3H") {  // 강수량
+                self.t3m.append((((posts[i] as AnyObject).value(forKey: "fcstValue") as! NSString as! NSMutableString).doubleValue))
+                
+            }
+        }
+        print("\(self.t3m)")
     }
     
     func getBaseTime(time: Int)
@@ -344,3 +382,4 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
     }
     
 }
+
