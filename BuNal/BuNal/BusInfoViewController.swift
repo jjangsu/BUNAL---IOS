@@ -260,6 +260,7 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
             cell.busImage.isHidden = true
             cell.remainSeatCnt.isHidden = true
             cell.plateNo.isHidden = true
+            cell.defaultImage.isHidden = true
             
             
             cell.locationNo1.isHidden = false
@@ -284,26 +285,49 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
             
             
             
+            cell.defaultImage.isHidden = false
+            cell.busImage.isHidden = true
+            cell.defaultImage.image = UIImage(named: "Resource/road.png")
+            cell.plateNo.text = String("")
+            cell.remainSeatCnt.text = String("")
+            
+            
             for i in 0..<postsBusLocation.count {
                 if ( (posts.object(at: indexPath.row) as AnyObject).value(forKey: "stationId") as! NSString == (postsBusLocation[i] as AnyObject).value(forKey: "stationId") as! NSString as! NSMutableString )
                 {
+                    cell.defaultImage.isHidden = true
                     cell.busImage.isHidden = false
                     cell.busImage.image = UIImage(named: "Resource/monster.png")
+                    
+                    UIView.animate(withDuration: 0.8, animations: {
+                        // CGAffineTransFormMakeRotation()
+                    
+                        let rotation = CGAffineTransform(rotationAngle: CGFloat((Double.random(in: -0.5..<0.5)) * Double.pi))
+                        let transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+                        
+                        cell.busImage.transform = rotation.concatenating(transform)
+            
+                    }) { (_) in
+                        UIView.animate(withDuration: 0.8, animations: {
+                            cell.busImage.transform = CGAffineTransform.identity
+                        })
+                        
+                    }
                     
                     let tmpPlateNo = (postsBusLocation[i] as AnyObject).value(forKey: "plateNo") as! NSString as! NSMutableString as String
                     cell.plateNo.text = String("\(tmpPlateNo)")
                     
                     let tmpRemainSeat = (postsBusLocation[i] as AnyObject).value(forKey: "remainSeatCnt") as! NSString as! NSMutableString as String
-                    cell.remainSeatCnt.text = String("잔여석: \(tmpRemainSeat)석")
+                    if String(tmpRemainSeat) != "-1" {
+                        cell.remainSeatCnt.text = String("잔여석: \(tmpRemainSeat)석")
+                    }
+                    else
+                    {
+                        cell.remainSeatCnt.text = String("잔여석 제공 안함")
+                    }
 
                 }
-                else
-                {
-                    cell.busImage.isHidden = true
-                    cell.plateNo.text = String("")
-                    cell.remainSeatCnt.text = String("")
-                    // cell.busImage.image = UIImage(named: "Resource/grayBus.png")
-                }
+
             }
             // postsBusLocation
             
