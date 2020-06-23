@@ -64,7 +64,7 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
         formatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale
         tempTime = formatter.string(from: Date())
         
-        currentTime = getBaseTime(time: Int(tempTime)!)
+        getBaseTime(time: Int(tempTime)!)
         
         let (x, y) = converter.convertGrid(lon: locationX.doubleValue, lat: locationY.doubleValue)
         print("x: \(x), y: \(y)")
@@ -164,46 +164,46 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
         // listTableView!.reloadData()
     }
     
-    func getBaseTime(time: Int) -> String
+    func getBaseTime(time: Int)
     {
         if 0 < time && time < 0210
         {
-            return "0000"   // 전날로 수정할 수 있도록 해야 함
+            self.currentTime =  "2300"
+            self.currentDate = String(Int(self.currentDate)! - 1)
         }
         else if 0210 <= time && time < 0510
         {
-            return "0200"
+            self.currentTime = "0200"
         }
         else if 0510 <= time && time < 0810
         {
-            return "0500"
+            self.currentTime =  "0500"
         }
         else if 0810 <= time && time < 1110
         {
-            return "0800"
+            self.currentTime =  "0800"
         }
         else if 1110 <= time && time < 1410
         {
-            return "1100"
+            self.currentTime =  "1100"
         }
         else if 1410 <= time && time < 1710
         {
-            return "1400"
+            self.currentTime = "1400"
         }
         else if 1710 <= time && time < 2010
         {
-            return "1700"
+            self.currentTime = "1700"
         }
         else if 2010 <= time && time < 2310
         {
-            return "2000"
+            self.currentTime = "2000"
         }
         else if 2310 <= time
         {
-            return "2300"
+            self.currentTime = "2300"
         }
         
-        return ""
     }
     
     func setSkyImage(condition: Int)
