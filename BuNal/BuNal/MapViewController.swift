@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
 class MapViewController: UIViewController, CLLocationManagerDelegate {
     
@@ -26,6 +27,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         // print("\(locationX) , \(locationY)")
         
         setAnnotation(latiValue: locationY.doubleValue, longtiValue: locationX.doubleValue, delta: 0.1, title: "버스", subtitle: "정류장")
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
         
     }
     
@@ -48,6 +51,18 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         mapView.addAnnotation(annotation)
     }
     
+    @IBAction func showDirection(_ sender: Any) {
+        let source = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: locationManager.location?.coordinate.latitude ?? 37.341237 , longitude: locationManager.location?.coordinate.longitude ?? 126.732894 )))
+        source.name = "출발지"
+        
+        let destination = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: locationY.doubleValue, longitude: locationX.doubleValue)))
+        destination.name = "도착지"
+        
+        let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeWalking]
+        
+        MKMapItem.openMaps(with: [source, destination], launchOptions: launchOptions)
+        
+    }
     
 
 }
