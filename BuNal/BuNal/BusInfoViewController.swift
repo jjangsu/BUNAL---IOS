@@ -367,7 +367,8 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
         else if currentCategory == 1 {
             secondViewController.locationX = (posts.object(at: indexPath!.row) as AnyObject).value(forKey: "x") as! NSString as! NSMutableString
             secondViewController.locationY = (posts.object(at: indexPath!.row) as AnyObject).value(forKey: "y") as! NSString as! NSMutableString
-            
+            secondViewController.stationName = (posts.object(at: indexPath!.row) as AnyObject).value(forKey: "stationName") as! NSString as! NSMutableString
+            // stationName
         }
     }
     

@@ -308,12 +308,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="GHk-At-kA8">
-                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="GHk-At-kA8">
+                                <rect key="frame" x="0.0" y="75" width="375" height="592"/>
                             </mapView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="LUn-61-BIz">
+                                <rect key="frame" x="16" y="44" width="343" height="32"/>
+                                <segments>
+                                    <segment title="정류장"/>
+                                    <segment title="현재 위치"/>
+                                </segments>
+                                <connections>
+                                    <action selector="SegmentAction:" destination="VSV-Vh-6Zf" eventType="valueChanged" id="OTW-fB-FcA"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="GHk-At-kA8" firstAttribute="leading" secondItem="Lx8-2x-FRL" secondAttribute="leading" id="DMH-6Q-cyZ"/>
+                            <constraint firstItem="LUn-61-BIz" firstAttribute="top" secondItem="Lx8-2x-FRL" secondAttribute="top" id="EJu-rD-d8m"/>
+                            <constraint firstItem="LUn-61-BIz" firstAttribute="centerX" secondItem="GHk-At-kA8" secondAttribute="centerX" id="g0x-xI-QqN"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="GHk-At-kA8" secondAttribute="bottom" constant="-49" id="hMg-xT-Abi"/>
+                            <constraint firstItem="LUn-61-BIz" firstAttribute="leading" secondItem="9zI-8e-jq4" secondAttribute="leadingMargin" id="lNc-67-pDX"/>
+                            <constraint firstItem="GHk-At-kA8" firstAttribute="top" secondItem="LUn-61-BIz" secondAttribute="bottom" id="s1C-Op-cAk"/>
+                            <constraint firstItem="LUn-61-BIz" firstAttribute="trailing" secondItem="9zI-8e-jq4" secondAttribute="trailingMargin" id="wYZ-ty-wSd"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Lx8-2x-FRL"/>
                     </view>
                     <navigationItem key="navigationItem" id="qS8-0o-I8P">
@@ -335,7 +353,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L1G-RN-kQl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="yOO-vJ-ifp" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="7284" y="-574"/>
+            <point key="canvasLocation" x="7284" y="-574.36281859070471"/>
         </scene>
         <!--Weather-->
         <scene sceneID="N71-aC-OnI">

@@ -18,7 +18,19 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     var locationX = NSMutableString()
     var locationY = NSMutableString()
+    
+    var stationName = NSMutableString()
 
+    @IBAction func SegmentAction(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0
+        {
+            locationManager.startUpdatingLocation()
+        }
+        else if sender.selectedSegmentIndex == 1 {
+            setAnnotation(latiValue: locationY.doubleValue, longtiValue: locationX.doubleValue, delta: 0.1, title: String(stationName), subtitle: "정류장")
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,10 +38,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         
         // print("\(locationX) , \(locationY)")
         
-        setAnnotation(latiValue: locationY.doubleValue, longtiValue: locationX.doubleValue, delta: 0.1, title: "버스", subtitle: "정류장")
+        setAnnotation(latiValue: locationY.doubleValue, longtiValue: locationX.doubleValue, delta: 0.1, title: String(stationName), subtitle: "정류장")
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         
+        locationManager.startUpdatingLocation()
+        mapView.showsUserLocation = true
     }
     
     func goLocation(latiValue: CLLocationDegrees, longtiValue: CLLocationDegrees,
@@ -64,5 +78,29 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         
     }
     
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let pLocation = locations.last
+        _ = goLocation(latiValue: (pLocation?.coordinate.latitude)!,
+                       longtiValue: (pLocation?.coordinate.longitude)!,
+                   delta: 0.01)
+        CLGeocoder().reverseGeocodeLocation(pLocation!, completionHandler: {(placemarks, error) -> Void in
+            let pm = placemarks!.first
+            let country = pm!.country
+            var address: String = ""
+            if country != nil {
+                address = country!
+            }
+            if pm!.locality != nil {
+                address += " "
+                address += pm!.locality!
+            }
+            if pm!.thoroughfare != nil {
+                address += " "
+                address += pm!.thoroughfare!
+            }
+        })
+        locationManager.stopUpdatingLocation()
+    }
 
 }
