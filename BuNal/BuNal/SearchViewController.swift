@@ -233,7 +233,7 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
             }
             else if element.isEqual(to: "stationId") {
                 stationId.append(string)
-                print("S   \(element) - \(string)")
+                // print("S   \(element) - \(string)")
             }
             else if element.isEqual(to: "x") {
                 locationX.append(string)

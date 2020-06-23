@@ -318,7 +318,13 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
                     cell.plateNo.text = String("\(tmpPlateNo)")
                     
                     let tmpRemainSeat = (postsBusLocation[i] as AnyObject).value(forKey: "remainSeatCnt") as! NSString as! NSMutableString as String
-                    cell.remainSeatCnt.text = String("잔여석: \(tmpRemainSeat)석")
+                    if String(tmpRemainSeat) != "-1" {
+                        cell.remainSeatCnt.text = String("잔여석: \(tmpRemainSeat)석")
+                    }
+                    else
+                    {
+                        cell.remainSeatCnt.text = String("잔여석 제공 안함")
+                    }
 
                 }
 

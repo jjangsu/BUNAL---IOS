@@ -283,7 +283,7 @@ class LodingViewController: UIViewController, XMLParserDelegate {
             secondViewController.element = self.element
             
             secondViewController.stationIDPre = self.stationID
-            print("loading pass - \(self.stationID)")
+            // print("loading pass - \(self.stationID)")
             secondViewController.routeIdArriv = self.routeIdArriv
             
             secondViewController.locationNo1 = self.locationNo1
