@@ -17,7 +17,10 @@
 		A140162224880F4C00E50496 /* BusInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A140162124880F4C00E50496 /* BusInfoViewController.swift */; };
 		A140162424880F6500E50496 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A140162324880F6500E50496 /* SearchViewController.swift */; };
 		A1543A1C24A238ED00642FEC /* ExplodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1543A1B24A238ED00642FEC /* ExplodeView.swift */; };
-		A1543A1E24A2420800642FEC /* StardustView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1543A1D24A2420800642FEC /* StardustView.swift */; };
+		A1543A2324A24C7900642FEC /* PSunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1543A1F24A24C7900642FEC /* PSunView.swift */; };
+		A1543A2424A24C7900642FEC /* PRainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1543A2024A24C7900642FEC /* PRainView.swift */; };
+		A1543A2524A24C7900642FEC /* PCloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1543A2124A24C7900642FEC /* PCloudView.swift */; };
+		A1543A2624A24C7900642FEC /* PSnowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1543A2224A24C7900642FEC /* PSnowView.swift */; };
 		A16792DF24A109AC0037EBC8 /* Legend.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16792D724A109AB0037EBC8 /* Legend.swift */; };
 		A16792E024A109AC0037EBC8 /* IndicatorPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16792D824A109AC0037EBC8 /* IndicatorPoint.swift */; };
 		A16792E124A109AC0037EBC8 /* Path+QuadCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16792D924A109AC0037EBC8 /* Path+QuadCurve.swift */; };
@@ -47,7 +50,10 @@
 		A140162124880F4C00E50496 /* BusInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusInfoViewController.swift; sourceTree = "<group>"; };
 		A140162324880F6500E50496 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		A1543A1B24A238ED00642FEC /* ExplodeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExplodeView.swift; sourceTree = "<group>"; };
-		A1543A1D24A2420800642FEC /* StardustView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StardustView.swift; sourceTree = "<group>"; };
+		A1543A1F24A24C7900642FEC /* PSunView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSunView.swift; sourceTree = "<group>"; };
+		A1543A2024A24C7900642FEC /* PRainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PRainView.swift; sourceTree = "<group>"; };
+		A1543A2124A24C7900642FEC /* PCloudView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PCloudView.swift; sourceTree = "<group>"; };
+		A1543A2224A24C7900642FEC /* PSnowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSnowView.swift; sourceTree = "<group>"; };
 		A16792D724A109AB0037EBC8 /* Legend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Legend.swift; sourceTree = "<group>"; };
 		A16792D824A109AC0037EBC8 /* IndicatorPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicatorPoint.swift; sourceTree = "<group>"; };
 		A16792D924A109AC0037EBC8 /* Path+QuadCurve.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Path+QuadCurve.swift"; sourceTree = "<group>"; };
@@ -94,7 +100,10 @@
 		A140160A2487E79600E50496 /* BuNal */ = {
 			isa = PBXGroup;
 			children = (
-				A1543A1D24A2420800642FEC /* StardustView.swift */,
+				A1543A2124A24C7900642FEC /* PCloudView.swift */,
+				A1543A2024A24C7900642FEC /* PRainView.swift */,
+				A1543A2224A24C7900642FEC /* PSnowView.swift */,
+				A1543A1F24A24C7900642FEC /* PSunView.swift */,
 				A1543A1B24A238ED00642FEC /* ExplodeView.swift */,
 				A16792D624A1099F0037EBC8 /* LineChart */,
 				A140161F2487FA2900E50496 /* Resource */,
@@ -208,11 +217,13 @@
 				A16792E824A109E30037EBC8 /* Helpers.swift in Sources */,
 				A16792E324A109AC0037EBC8 /* Line.swift in Sources */,
 				A1EDA742249262A3009DEE48 /* BusInfoTableViewCell.swift in Sources */,
+				A1543A2624A24C7900642FEC /* PSnowView.swift in Sources */,
 				A140162424880F6500E50496 /* SearchViewController.swift in Sources */,
+				A1543A2524A24C7900642FEC /* PCloudView.swift in Sources */,
 				A16792DF24A109AC0037EBC8 /* Legend.swift in Sources */,
 				A16792E424A109AC0037EBC8 /* MagnifierRect.swift in Sources */,
 				A178B8392490276D0069C10E /* MapViewController.swift in Sources */,
-				A1543A1E24A2420800642FEC /* StardustView.swift in Sources */,
+				A1543A2324A24C7900642FEC /* PSunView.swift in Sources */,
 				A16792E024A109AC0037EBC8 /* IndicatorPoint.swift in Sources */,
 				A178B83B249129C80069C10E /* weatherViewController.swift in Sources */,
 				A14016102487E79600E50496 /* ViewController.swift in Sources */,
@@ -223,6 +234,7 @@
 				A16792E224A109AC0037EBC8 /* LineView.swift in Sources */,
 				A1543A1C24A238ED00642FEC /* ExplodeView.swift in Sources */,
 				A1D79F3324914438004D43E2 /* LambertProjection.swift in Sources */,
+				A1543A2424A24C7900642FEC /* PRainView.swift in Sources */,
 				A140162224880F4C00E50496 /* BusInfoViewController.swift in Sources */,
 				A1EDA74024925899009DEE48 /* loadingViewController.swift in Sources */,
 			);

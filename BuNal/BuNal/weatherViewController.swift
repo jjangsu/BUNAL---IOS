@@ -53,8 +53,6 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
         backgroundImage.image = UIImage(named: "Resource/back.png")
         weatherIcon.image = UIImage(named: "Resource/sun.png")
         
-        
-        
         var tempTime = ""
         
         let formatter = DateFormatter()
@@ -72,13 +70,6 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
         print("x: \(x), y: \(y)")
         beginXmlFileParsing(numOfRows: String(104), baseData: currentDate, baseTime: currentTime, nx: String(x), ny: String(y))
         
-
-        let startX: CGFloat = CGFloat(Float.random(in: -400..<400))
-        let startY: CGFloat = 0
-        
-        let stars = StardustView(frame: CGRect(x: startX, y: startY, width: 100, height: 100))
-        self.backgroundImage.addSubview(stars)
-        self.backgroundImage.sendSubviewToBack(_: stars)
     }
     // 13가지
     // 00 03 06 09 12 15 18 21
@@ -220,12 +211,33 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
         switch condition {
         case 1: // 맑음
             weatherIcon.image = UIImage(named: "Resource/sun.png")
+
+            let startX: CGFloat = CGFloat(Float.random(in: -400..<400))
+            let startY: CGFloat = 0
+            
+            let stars = PSunView(frame: CGRect(x: startX, y: startY, width: 800, height: 1000))
+            self.backgroundImage.addSubview(stars)
+            self.backgroundImage.sendSubviewToBack(_: stars)
             break
         case 3: // 구름 많음
             weatherIcon.image = UIImage(named: "Resource/cloud_sun.png")
+
+            let startX: CGFloat = CGFloat(Float.random(in: -400..<400))
+            let startY: CGFloat = 0
+            
+            let stars = PCloudView(frame: CGRect(x: startX, y: startY, width: 800, height: 1000))
+            self.backgroundImage.addSubview(stars)
+            self.backgroundImage.sendSubviewToBack(_: stars)
             break
         case 4: // 흐림
             weatherIcon.image = UIImage(named: "Resource/cloud.png")
+
+            let startX: CGFloat = CGFloat(Float.random(in: -400..<400))
+            let startY: CGFloat = 0
+            
+            let stars = PCloudView(frame: CGRect(x: startX, y: startY, width: 800, height: 1000))
+            self.backgroundImage.addSubview(stars)
+            self.backgroundImage.sendSubviewToBack(_: stars)
             break
         default:
             break
