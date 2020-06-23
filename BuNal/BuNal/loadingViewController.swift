@@ -29,7 +29,7 @@ class LodingViewController: UIViewController, XMLParserDelegate {
     
     var currentCategory : Int = 0
     
-
+    
     // category == 0
     var plateNo1 = NSMutableString()
     var plateNo2 = NSMutableString()
@@ -60,6 +60,7 @@ class LodingViewController: UIViewController, XMLParserDelegate {
         image.image = UIImage(named: "Resource/back.png")
         
         if currentCategory == 0 {
+            // print("parse - \(stationID)")
             beginXmlFileParsing(category: 0, parameter: "stationId", value: stationID)
         }
         else if currentCategory == 1 {
@@ -81,7 +82,7 @@ class LodingViewController: UIViewController, XMLParserDelegate {
             path =  "http://openapi.gbis.go.kr/ws/rest/buslocationservice?serviceKey=cOXFXk2qE%2FhuIiYcsMQ4gv032heBUTwuP%2FDQwW0TskxrWGtrdVC6bJPNmJ2CbVcFq6P1eirV9X5d5fql75eeRg%3D%3D&"
         }
         
-        let quaryURL = path + parameter + "=" + "233000031"// String(value)
+        let quaryURL = path + parameter + "=" + String(value)
         
         
         posts = []
@@ -128,6 +129,7 @@ class LodingViewController: UIViewController, XMLParserDelegate {
             locationNo2 = ""
             stationIdArrive = NSMutableString()
             stationIdArrive = ""
+            
         }
         else if (elementName as NSString ).isEqual(to: "busLocationList")
         {
@@ -179,7 +181,9 @@ class LodingViewController: UIViewController, XMLParserDelegate {
             }
             else if element.isEqual(to: "stationId") {
                 stationIdArrive.append(string)
+                // print("\(element) - \(string)")
             }
+            // print("\(element) - \(string)")
         }
         else if currentCategory == 1
         {
@@ -268,7 +272,7 @@ class LodingViewController: UIViewController, XMLParserDelegate {
         //let cell = sender as! UITableViewCell
         
         secondViewController.currentCategory = self.currentCategory
-        secondViewController.stationIDPre = self.stationID
+        // secondViewController.stationIDPre = self.stationID
         
         if currentCategory == 0 {
             secondViewController.locationX = self.locationX
@@ -279,6 +283,7 @@ class LodingViewController: UIViewController, XMLParserDelegate {
             secondViewController.element = self.element
             
             secondViewController.stationIDPre = self.stationID
+            print("loading pass - \(self.stationID)")
             secondViewController.routeIdArriv = self.routeIdArriv
             
             secondViewController.locationNo1 = self.locationNo1

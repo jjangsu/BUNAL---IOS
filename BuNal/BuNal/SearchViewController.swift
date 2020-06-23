@@ -233,6 +233,7 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
             }
             else if element.isEqual(to: "stationId") {
                 stationId.append(string)
+                print("S   \(element) - \(string)")
             }
             else if element.isEqual(to: "x") {
                 locationX.append(string)
@@ -296,7 +297,7 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
         if currentCategory == 0 {
-        cell.textLabel?.text = (posts.object(at: indexPath.row) as AnyObject).value(forKey: "stationName") as! NSString as String
+            cell.textLabel?.text = (posts.object(at: indexPath.row) as AnyObject).value(forKey: "stationName") as! NSString as String
             cell.detailTextLabel?.text = (posts.object(at: indexPath.row) as AnyObject).value(forKey: "regionName") as! NSString as String
         }
         else if currentCategory == 1 {
@@ -323,12 +324,14 @@ class SearchViewController: UIViewController, XMLParserDelegate, UITableViewData
         
         secondViewController.currentCategory = self.currentCategory
         
+        //print("pass - \((posts.object(at: indexPath!.row) as AnyObject).value(forKey: "stationId") as! NSString)")
         
         if currentCategory == 0 {
             secondViewController.locationX = (posts.object(at: indexPath!.row) as AnyObject).value(forKey: "x") as! NSString as! NSMutableString
             secondViewController.locationY = (posts.object(at: indexPath!.row) as AnyObject).value(forKey: "y") as! NSString as! NSMutableString
             
             secondViewController.stationID = (posts.object(at: indexPath!.row) as AnyObject).value(forKey: "stationId") as! NSString as! NSMutableString
+            
         } else if currentCategory == 1 {
             secondViewController.routeID = (posts.object(at: indexPath!.row) as AnyObject).value(forKey: "routeId") as! NSString as! NSMutableString
         }
