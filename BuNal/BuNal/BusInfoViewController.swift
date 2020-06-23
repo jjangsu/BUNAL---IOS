@@ -50,6 +50,7 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
     var plateNo = NSMutableString()
     var plateType = NSMutableString()
     var remainSeatCnt = NSMutableString()
+    var busStationList_stationName = NSMutableString()
     //  var stationId = NSMutableString() // category1 용
     // category == 2
     var stationIDPre = NSMutableString()
@@ -363,6 +364,7 @@ class BusInfoViewController: UIViewController, XMLParserDelegate, UITableViewDat
             secondViewController.locationX = self.locationX
             secondViewController.locationY = self.locationY
             
+            secondViewController.stationName = self.busStationList_stationName
         }
         else if currentCategory == 1 {
             secondViewController.locationX = (posts.object(at: indexPath!.row) as AnyObject).value(forKey: "x") as! NSString as! NSMutableString

@@ -29,6 +29,8 @@ class LodingViewController: UIViewController, XMLParserDelegate {
     
     var currentCategory : Int = 0
     
+    var busStationList_stationName = NSMutableString()
+    
     
     // category == 0
     var plateNo1 = NSMutableString()
@@ -290,6 +292,8 @@ class LodingViewController: UIViewController, XMLParserDelegate {
             secondViewController.locationNo2 = self.locationNo2
             
             secondViewController.stationIdArrive = self.stationIdArrive
+            
+            secondViewController.busStationList_stationName = self.busStationList_stationName
             
         } else if currentCategory == 1 {
             secondViewController.routeID = self.routeID
