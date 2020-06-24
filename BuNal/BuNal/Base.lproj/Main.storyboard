@@ -314,8 +314,8 @@
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="LUn-61-BIz">
                                 <rect key="frame" x="16" y="44" width="343" height="32"/>
                                 <segments>
-                                    <segment title="정류장"/>
                                     <segment title="현재 위치"/>
+                                    <segment title="정류장"/>
                                 </segments>
                                 <connections>
                                     <action selector="SegmentAction:" destination="VSV-Vh-6Zf" eventType="valueChanged" id="OTW-fB-FcA"/>
@@ -429,7 +429,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Og-h1-Pk1">
-                                <rect key="frame" x="87" y="460" width="203" height="152"/>
+                                <rect key="frame" x="37" y="488" width="300" height="130"/>
                                 <connections>
                                     <segue destination="eIx-Xc-nhx" kind="embed" destinationCreationSelector="weatherChartAction:" id="O68-r9-DRI"/>
                                 </connections>

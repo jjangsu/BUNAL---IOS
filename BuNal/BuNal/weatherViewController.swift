@@ -32,7 +32,7 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
         beginXmlFileParsing(numOfRows: String(104), baseData: currentDate, baseTime: currentTime, nx: String(x), ny: String(y))
         
         self.makeT3M()
-        return UIHostingController(coder: coder, rootView: LineChartView(data: self.t3m, title: "24시간 기온", legend: ":)")
+        return UIHostingController(coder: coder, rootView: LineChartView(data: self.t3m, title: "시간대별 기온", legend: "3시간 간격", rateValue: skyCondition)
         .environment(\.colorScheme, .light))
     }
     
@@ -199,7 +199,7 @@ class WeatherViewController: UIViewController, XMLParserDelegate {
                 
             }
         }
-        print("\(self.t3m)")
+        // print("\(self.t3m)")
     }
     
     func getBaseTime(time: Int)

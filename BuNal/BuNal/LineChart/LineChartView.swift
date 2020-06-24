@@ -80,12 +80,27 @@ public struct LineChartView: View {
                         HStack {
                             if (self.rateValue ?? 0 != 0)
                             {
-                                if (self.rateValue ?? 0 >= 0){
-                                    Image(systemName: "arrow.up")
-                                }else{
-                                    Image(systemName: "arrow.down")
+                                if self.rateValue == 1
+                                {
+                                    Image(systemName: "sun.min.fill")
+                                    Text("화창")
                                 }
-                                Text("\(self.rateValue!)%")
+                                else if self.rateValue == 3
+                                {
+                                    Image(systemName: "cloud.sun.fill")
+                                    Text("구름 많음")
+                                }
+                                else if self.rateValue == 4
+                                {
+                                    Image(systemName: "cloud.rain.fill")
+                                    Text("주륵주륵")
+                                }
+//                                if (self.rateValue ?? 0 >= 0){
+//                                    Image(systemName: "cloud.rain.fill")
+//                                }else{
+//                                    Image(systemName: "arrow.down")
+//                                }
+                                // Text("\(self.rateValue!)%")
                             }
                         }
                     }
